@@ -26,8 +26,8 @@ public class Emp implements Serializable {
 	private static final long serialVersionUID = -22975200295398679L;
 	
 	@Id
-	@GeneratedValue(generator="empSeq")
-    @SequenceGenerator(name="empSeq", sequenceName="emp_seq", initialValue = 1, allocationSize = 1)
+//	@GeneratedValue(generator="empSeq")
+//    @SequenceGenerator(name="empSeq", sequenceName="emp_seq", initialValue = 1, allocationSize = 1)
 	@Column(name = "empno")
 	private Integer empno;
 	

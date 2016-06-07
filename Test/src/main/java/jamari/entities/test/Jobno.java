@@ -21,8 +21,8 @@ public class Jobno implements Serializable {
 	private static final long serialVersionUID = 8229423269534151724L;
 
 	@Id
-	@GeneratedValue(generator="jobSeq")
-    @SequenceGenerator(name="jobSeq", sequenceName="job_seq", initialValue = 10, allocationSize = 10)
+//	@GeneratedValue(generator="jobSeq")
+//    @SequenceGenerator(name="jobSeq", sequenceName="job_seq", initialValue = 10, allocationSize = 10)
 	@Column(name = "jobno")
 	private Integer jobno;
 	

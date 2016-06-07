@@ -21,8 +21,8 @@ public class Dept implements Serializable {
 	private static final long serialVersionUID = 6449954794123343302L;
 
 	@Id
-    @GeneratedValue(generator="deptSeq")
-    @SequenceGenerator(name="deptSeq", sequenceName="dept_seq", initialValue = 10, allocationSize = 10)
+//    @GeneratedValue(generator="deptSeq")
+//    @SequenceGenerator(name="deptSeq", sequenceName="dept_seq", initialValue = 10, allocationSize = 10)
 	@Column(name = "deptno")
 	private Integer deptno;
 	

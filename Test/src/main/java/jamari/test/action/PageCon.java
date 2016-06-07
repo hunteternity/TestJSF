@@ -1,6 +1,7 @@
 package jamari.test.action;
  
 import jamari.entities.test.Emp;
+import jamari.test.service.EmpService;
 import jamari.test.service.impl.EmpServiceImpl;
 
 import java.io.Serializable;
@@ -10,19 +11,25 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
  
 @ManagedBean(name = "empData", eager = true)
 @SessionScoped
+@Component
 public class PageCon implements Serializable {
  
 	private static final long serialVersionUID = 1L;
  
+	@Autowired
+	private EmpService empSvc1;
 	@Inject
-	List<Emp> list;
+	private EmpService empSvc;
 	
 	public List<Emp> emp(){
-		EmpServiceImpl empSvc = new EmpServiceImpl();
-		list = empSvc.list();
+//		EmpServiceImpl empSvc = new EmpServiceImpl();
+		List<Emp> list = empSvc.list();
 		return list;
 	}
 	

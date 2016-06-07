@@ -8,6 +8,8 @@ import jamari.test.service.EmpService;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,4 +45,8 @@ public class EmpServiceImpl extends BaseService<Emp> implements EmpService {
 		return dao.selectHQL();
 	}
 
+	@PostConstruct
+	public void init(){
+		System.out.println("post construct.............");
+	}
 }
