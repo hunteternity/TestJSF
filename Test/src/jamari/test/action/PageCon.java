@@ -25,7 +25,7 @@ public class PageCon implements Serializable {
 		list = empSvc.list();
 		return list;
 	}
-	
+	//
 //	public void edit(Emp item){
 //		System.out.println("1111");
 ////		List<Emp> list = new ArrayList<Emp>();
