@@ -48,7 +48,21 @@
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
+ <!-- database setting console-->
+    <servlet>
+        <servlet-name>h2</servlet-name>
+        <servlet-class>org.h2.server.web.WebServlet</servlet-class>
+        <init-param>
+      			<param-name>webAllowOthers</param-name>
+     		 	<param-value>true</param-value>
+   		 </init-param>
+   		  <load-on-startup>1</load-on-startup>
+    </servlet> 
+     <servlet-mapping>
+        <servlet-name>h2</servlet-name>
+        <url-pattern>/admin/h2/*</url-pattern>
+    </servlet-mapping>
+     
 	<!-- Map these files with JSF -->
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
