@@ -9,19 +9,24 @@
 		<el-resolver>
     		    org.springframework.web.jsf.el.SpringBeanFacesELResolver
 		</el-resolver>
+		<message-bundle>JsfMessageResources</message-bundle>
+		<message-bundle>resources.application</message-bundle>
+		<locale-config>
+			<default-locale>en</default-locale>
+		</locale-config>
   	</application>
-	<navigation-rule>
-		<from-view-id>start.xhtml</from-view-id>
-		<navigation-case>
-			<from-action>#{pageController.processPage1}</from-action>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/WEB-INF/views/jsf/page1.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-action>#{pageController.processPage2}</from-action>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/WEB-INF/views/jsf/page2.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
+<!-- 	<navigation-rule> -->
+<!-- 		<from-view-id>start.xhtml</from-view-id> -->
+<!-- 		<navigation-case> -->
+<!-- 			<from-action>#{pageController.processPage1}</from-action> -->
+<!-- 			<from-outcome>success</from-outcome> -->
+<!-- 			<to-view-id>/WEB-INF/views/jsf/page1.xhtml</to-view-id> -->
+<!-- 		</navigation-case> -->
+<!-- 		<navigation-case> -->
+<!-- 			<from-action>#{pageController.processPage2}</from-action> -->
+<!-- 			<from-outcome>success</from-outcome> -->
+<!-- 			<to-view-id>/WEB-INF/views/jsf/page2.xhtml</to-view-id> -->
+<!-- 		</navigation-case> -->
+<!-- 	</navigation-rule> -->
 	
 </faces-config>

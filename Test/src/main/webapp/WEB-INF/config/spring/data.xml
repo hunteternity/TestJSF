@@ -48,7 +48,7 @@
 			<!-- 		<jdbc:script location="classpath:META-INF/database/h2/schema/*.sql" -->
 <!-- 			encoding="UTF8" />  -->
 	</jdbc:embedded-database>
-	<bean class="jamari.test.service.impl.EmpServiceImpl" autowire="default"></bean>
+<!-- 	<bean class="jamari.test.service.impl.EmpServiceImpl" autowire="default"></bean> -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -62,8 +62,8 @@
 		</property>
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+<!-- 				<prop key="hibernate.hbm2ddl.auto">update</prop> -->
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.use_sql_comments">true</prop>
 				<prop key="hibernate.format_sql">true</prop>

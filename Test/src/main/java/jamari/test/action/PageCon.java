@@ -9,22 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import org.cdisource.springintegration.Spring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
  
-@ManagedBean(name = "empData", eager = true)
+@ManagedBean(name = "empData", eager = true) 
+//@Named(value="empData")
+//@RequestScoped
+@Component 
 @SessionScoped
-@Component
 public class PageCon implements Serializable {
  
 	private static final long serialVersionUID = 1L;
  
 	@Autowired
 	private EmpService empSvc1;
+	
 	@Inject
+	@Spring(name = "empServiceImpl")
 	private EmpService empSvc;
 	
 	public List<Emp> emp(){

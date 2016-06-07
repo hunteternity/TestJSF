@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris" xmlns:ms="http://java.sun.com/jsf/composite/ms"
+	xmlns:rist="http://risfaces.iisigroup.com/rist">
+	
+	<p:fieldset>
+		<table style="white-space: nowrap;">
+			<tr>
+				<th width="8%">帳號：</th>
+				<td><h:outputText value="#{db00110Controller.userInfo.username}"/></td>
+			</tr>
+			<tr>
+				<th>姓名：</th>
+				<td><h:outputText value="#{db00110Controller.userInfo.fullName}"/></td>
+			</tr>
+			<tr>
+				<th>電話：</th>
+				<td><h:outputText value="#{db00110Controller.userInfo.phoneNumber}"/></td>
+			</tr>
+			<tr>
+				<th>E-mail：</th>
+				<td><h:outputText value="#{db00110Controller.userInfo.email}"/></td>
+			</tr>
+		</table>
+	</p:fieldset>
+</ui:composition>

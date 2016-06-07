@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris" xmlns:ms="http://java.sun.com/jsf/composite/ms"
+	xmlns:rist="http://risfaces.iisigroup.com/rist">
+
+	<p:fieldset legend="申請修改資料">
+		<table style="white-space: nowrap;">
+			<tr>
+				<th width="10%">申請人：</th>
+				<td><h:outputText value="#{db00213Controller.detail.applyUser}" /></td>
+			</tr>
+			<tr>
+				<th>申請時間：</th>
+				<td><h:outputText value="#{db00213Controller.detail.applyTime}" >
+					<f:convertDateTime type="both" locale="zh_TW" timeZone="Asia/Taipei"/>
+					</h:outputText>
+				</td>
+			</tr>
+			<tr>
+				<th>狀態：</th>
+				<td><h:outputText value="#{db00213Controller.detail.status}" /></td>
+			</tr>
+			<tr>
+				<th>主機點：</th>
+				<td><h:outputText value="#{db00213Controller.detail.hostPosition}" /></td>
+			</tr>
+			<tr>
+				<th>查詢模式：</th>
+				<td><h:outputText value="#{db00213Controller.detail.queryMode}" /></td>
+			</tr>
+			<tr>
+				<th>targetTable：</th>
+				<td><h:outputText value="#{db00213Controller.detail.targetTable}" /></td>
+			</tr>
+			<tr>
+				<th>whereCondition：</th>
+				<td><h:outputText value="#{db00213Controller.detail.whereCondition}" /></td>
+			</tr>
+			<tr>
+				<th>批次修改內容：</th>
+				<td><h:outputText value="#{db00213Controller.detail.setvalueClause}" /></td>
+			</tr>
+			<tr>
+				<th>備註：</th>
+				<td><h:outputText value="#{db00213Controller.detail.note}" /></td>
+			</tr>
+		</table>
+	</p:fieldset>
+
+	<ms:popupActionButton 
+		rendered="#{db00213Controller.detail.reviewUser==loginUser.userId and db00213Controller.detail.status eq 'APPLY' }"
+		pid="popupDetail" value="複查確認" action="#{db00213Controller.doExecute}" updateMethod="updateMasters" />
+	<ms:popupCloseButton pid="popupDetail" value="#{db00213Controller.detail.reviewUser==loginUser.userId and db00213Controller.detail.status eq 'APPLY'?'取消':'關閉'}" />
+
+</ui:composition>

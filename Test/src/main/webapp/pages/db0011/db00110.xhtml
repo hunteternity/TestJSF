@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris"
+	xmlns:ms="http://java.sun.com/jsf/composite/ms" xmlns:c="http://java.sun.com/jsp/jstl/core" template="/WEB-INF/template/default.xhtml">
+
+
+	<ui:define name="right">
+		<p:panel header="使用者資訊">
+			<h:form>
+				<p:remoteCommand name="updateMasters" process="@none" update="@form" />
+				<ui:include src="db00110_List.xhtml" />
+				<h:panelGroup rendered="#{not db00110Controller.userInfo.ldap or db00110Controller.nAccount}">
+					<ms:popupOpenButton pid="popupEdit" value="資料修改" />
+					<ms:popupOpenButton pid="pwEdit" value="密碼修改" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{db00110Controller.userInfo.ldap and !db00110Controller.nAccount}">
+					<ms:popupOpenButton pid="popupAdd" value="註冊新帳號" />
+				</h:panelGroup>
+			</h:form>
+		</p:panel>
+	</ui:define>
+
+	<ui:define name="dialogs">
+		<!-- Pop up window. ["popupEdit"] -->
+		<h:form>
+			<ms:popupPanel pid="popupEdit" popupController="#{db00110Controller}" popupHeader="資料修改">
+				<ui:include src="db00110_Edit.xhtml" />
+			</ms:popupPanel>
+		</h:form>
+
+		<!-- Pop up window. [pwEdit] -->
+		<h:form>
+			<ms:popupPanel pid="pwEdit" popupController="#{db00110Controller}" popupHeader="密碼修改">
+				<ui:include src="db00110_pwEdit.xhtml" />
+			</ms:popupPanel>
+		</h:form>
+		<h:form>
+			<ms:popupPanel pid="popupAdd" popupController="#{db00110Controller}" popupHeader="註冊新帳號">
+				<ui:include src="db00110_Add.xhtml" />
+			</ms:popupPanel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+

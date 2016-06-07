@@ -8,6 +8,26 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/config/spring/root-context.xml</param-value>
 	</context-param>
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.apache.myfaces.EXPRESSION_FACTORY</param-name>
+		<param-value>org.apache.el.ExpressionFactoryImpl</param-value>
+	</context-param>
+	 
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -15,15 +35,12 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/config/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>4</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
 	<filter>
 		<filter-name>characterFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -47,6 +64,10 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
+		<init-param>
+			<param-name>WELD_CONTEXT_ID_KEY</param-name>
+			<param-value>Test</param-value>
+		</init-param>
 	</servlet>
  <!-- database setting console-->
     <servlet>
@@ -80,10 +101,25 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
-  <listener>
-	<listener-class>
-		org.springframework.web.context.request.RequestContextListener
-	</listener-class>
-  </listener>
-	
+ 
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.cdisource.springintegration.servletsupport.ApplicationContextFinderServletContextListener</listener-class>
+	</listener>
+<!-- 	<listener> -->
+<!-- 		<listener-class>org.apache.myfaces.extensions.cdi.weld.startup.WeldAwareConfigurationListener</listener-class> -->
+<!-- 	</listener> -->
+
+	<mime-mapping>
+		<extension>xhtml</extension>
+		<mime-type>text/html</mime-type>
+	</mime-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.xhtml</welcome-file>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>

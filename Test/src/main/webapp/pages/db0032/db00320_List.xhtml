@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris" 
+	xmlns:ms="http://java.sun.com/jsf/composite/ms" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<p:dataTable var="item" 
+		value="#{db00320Controller.epList}" 
+		rowIndexVar="itemIndex" rendered="#{not empty db00320Controller.epList}">
+		<p:column headerText="#" style="width:10px;vertical-align:middle;">
+			<h:outputText value="#{itemIndex+1}" />
+		</p:column>
+		<p:column headerText="申請者">
+			<h:outputText value="#{item.applyUser}" />
+		</p:column>
+		<p:column headerText="申請時間">
+			<h:outputText value="#{item.applyTime}" >
+				<f:convertDateTime type="both" locale="zh_TW" timeZone="Asia/Taipei"/>
+			</h:outputText>
+		</p:column>
+		<p:column headerText="狀態">
+			<h:outputText value="#{item.status}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header" />
+			<ms:popupOpenButton pid="popupDetail" value="明細" action="#{db00320Controller.doInitPopup('detail')}">
+				<f:setPropertyActionListener value="#{item}" for="button" target="#{db00320Controller.detail}" />
+			</ms:popupOpenButton>
+		</p:column>
+	</p:dataTable>
+
+</ui:composition>
+
