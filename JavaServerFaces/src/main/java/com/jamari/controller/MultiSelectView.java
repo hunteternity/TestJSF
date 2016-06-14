@@ -51,7 +51,7 @@ public class MultiSelectView {
 		group3.setSelectItems(new SelectItem[] { option31, option32, option33,
 				option34 });
 		group4.setSelectItems(new SelectItem[] { option41 });
-
+    
 		categories.add(group1);
 		categories.add(group2);
 		categories.add(group3);
