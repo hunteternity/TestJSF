@@ -16,6 +16,14 @@
     <p:commandButton value="Save" icon="ui-icon-check" update="out" style="display:block;margin:10px 0" />
  
     <h:outputText id="out" value="Value: #{multiSelectView.selection}" style="display:block" />
+    
+    <h:selectOneMenu  value="#{empData.level1Value}"  immediate="true" valueChangeListener="#{empData.valueChangeMethod}" >
+    	<f:selectItems value="#{empData.level1}" />
+     </h:selectOneMenu>
+     
+     <h:selectOneMenu   >
+    	<f:selectItems value="#{empData.level02[empData.level1Value]}" />
+     </h:selectOneMenu>
 </h:form>
 </h:body>
 </html>
