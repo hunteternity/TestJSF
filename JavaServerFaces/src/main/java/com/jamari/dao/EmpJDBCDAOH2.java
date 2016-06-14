@@ -8,14 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jamari.model.Emp; ;
+import com.jamari.model.Emp;
+import com.jamari.service.EmpService;
 
-public class EmpJDBCDAO implements IEmpJDBCDAO {
+public class EmpJDBCDAOH2 implements IEmpJDBCDAO {
 
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "hr";
-	String passwd = "123456";
+	String driver = "org.h2.Driver";
+	String url = "jdbc:h2:mem:testdb;INIT=runscript from \'classpath:scripts/schema.sql\';LOCK_MODE=1;MVCC=TRUE;DB_CLOSE_DELAY=-1;MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=3;TRACE_LEVEL_FIle=4";
+	String userid = "sa";
+	String passwd = "";
 	
 	private static final String GET_ALL_STMT = "SELECT * from emp order by empno";
 	private static final String UPDATE = "UPDATE emp set ename=? where empno = ?";
