@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="/test/index" extends=".base">
+		<put-attribute name="title" value="首頁" type="string" />
+		<put-attribute name="content" value="/WEB-INF/views/test/index.jsp" />
+	</definition>
+	
+	<definition name="/test/uploadTest" extends=".base">
+		<put-attribute name="title" value="上傳" type="string" />
+		<put-attribute name="content" value="/WEB-INF/views/test/uploadTest.jsp" />
+	</definition>
+	
+	<definition name="/test/allEmp" extends=".base">
+		<put-attribute name="title" value="所有員工" type="string" />
+		<put-attribute name="content" value="/WEB-INF/views/test/allEmp.jsp" />
+	</definition>
+	
+	<definition name="/test/empCreate" extends=".base">
+		<put-attribute name="title" value="新增員工" type="string" />
+		<put-attribute name="content" value="/WEB-INF/views/test/allEmp.jsp" />
+	</definition>
+	
+	<definition name="/test/empUpdatePage" extends=".base">
+		<put-attribute name="title" value="修改員工資料" type="string" />
+		<put-attribute name="content" value="/WEB-INF/views/test/updatePage.jsp" />
+	</definition>
+	
+	<definition name="/test/empUpdate" extends=".base">
+		<put-attribute name="title" value="員工資料" type="string" />
+		<put-attribute name="content" value="/WEB-INF/views/test/allEmp.jsp" />
+	</definition>
+	
+	<definition name="/test/empByEname" extends=".base">
+		<put-attribute name="title" value="員工資料" type="string" />
+		<put-attribute name="content" value="/WEB-INF/views/test/empByEname.jsp" />
+	</definition>
+	
+	
+</tiles-definitions>

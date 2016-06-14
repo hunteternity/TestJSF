@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris" xmlns:ms="http://java.sun.com/jsf/composite/ms"
+	xmlns:rist="http://risfaces.iisigroup.com/rist">
+
+	<p:fieldset legend="編輯使用者資訊">
+		<table style="white-space: nowrap;">
+			<tr>
+				<th width="10%">帳號：</th>
+				<td><h:outputText value="#{db00300Controller.detail.username}" maxlength="10" /></td>
+			</tr>
+			<tr>
+				<th>姓名：</th>
+				<td><p:inputText value="#{db00300Controller.detail.fullName}" maxlength="10" /></td>
+			</tr>
+			<tr>
+				<th>電話：</th>
+				<td><p:inputText value="#{db00300Controller.detail.phoneNumber}" maxlength="10"/></td>
+			</tr>
+			<tr>
+				<th>email：</th>
+				<td><p:inputText value="#{db00300Controller.detail.email}" maxlength="100" style="width:400px;"/></td>
+			</tr>
+			<tr>
+				<th>管理者：</th>
+				<td>
+					<h:panelGrid columns="2" style="width:100px;">
+				        <p:selectOneRadio value="#{db00300Controller.detail.admin}">
+				            <f:selectItem itemLabel="是" itemValue="true" />
+				            <f:selectItem itemLabel="否" itemValue="false" />
+				        </p:selectOneRadio>
+				    </h:panelGrid>
+				</td>
+			</tr>
+			<tr>
+				<th>moi使用者：</th>
+				<td>
+					<h:panelGrid columns="2" style="width:100px;">
+				        <p:selectOneRadio value="#{db00300Controller.detail.moiUser}">
+				            <f:selectItem itemLabel="是" itemValue="true" />
+				            <f:selectItem itemLabel="否" itemValue="false" />
+				        </p:selectOneRadio>
+				    </h:panelGrid>
+				</td>
+			</tr>
+			<tr>
+				<th>常規異動資料：</th>
+				<td>
+					<h:panelGrid columns="2" style="width:100px;">
+				        <p:selectOneRadio value="#{db00300Controller.detail.routineModifer}">
+				            <f:selectItem itemLabel="是" itemValue="true" />
+				            <f:selectItem itemLabel="否" itemValue="false" />
+				        </p:selectOneRadio>
+				    </h:panelGrid>
+				</td>
+			</tr>
+			<tr>
+				<th>停用：</th>
+				<td>
+					<h:panelGrid columns="2" style="width:100px;">
+				        <p:selectOneRadio value="#{db00300Controller.detail.disable}">
+				            <f:selectItem itemLabel="是" itemValue="true" />
+				            <f:selectItem itemLabel="否" itemValue="false" />
+				        </p:selectOneRadio>
+				    </h:panelGrid>
+				</td>
+			</tr>
+		</table>
+	</p:fieldset>
+
+	<ms:popupActionButton pid="popupEdit" value="儲存" action="#{db00300Controller.doUpdate()}" updateMethod="updateMasters" />
+	<ms:popupCloseButton pid="popupEdit" value="取消" action="#{db00300Controller.cancelCreateUser()}" />
+
+</ui:composition>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris"
+	xmlns:ms="http://java.sun.com/jsf/composite/ms" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<style type="text/css">
+		ul li.undo   { list-style-image: url(#{ resource [ 'images:undo.png' ]}); font-weight: bolder;}
+		ul li.file   { list-style-image: url(#{ resource [ 'images:file.png' ]}); font-weight: bold;}
+		ul li.folder { list-style-image: url(#{ resource [ 'images:folder.png' ]}); font-weight: bolder;}
+		ul li a { color: #0000B0; }
+	</style>
+
+	<script type="text/javascript">
+		function clearFileUID(fid) {
+			$(PrimeFaces.escapeClientId(fid)).val('');
+		}
+		function downloadFile(fid) {
+			var uuid = $(PrimeFaces.escapeClientId(fid)).val();
+			if (uuid != "") {
+				var aURL = '#{request.contextPath}/fileDownload?fid=' + uuid;
+				$(PrimeFaces.escapeClientId(fid)).val(aURL);
+				openWindow(aURL, 100, 80);
+			}
+		}
+	</script>
+	</ui:composition>

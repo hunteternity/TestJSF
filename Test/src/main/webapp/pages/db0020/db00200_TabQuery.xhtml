@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<h:form style="height:31em;">
+		最大查詢筆數限制：<p:inputText value="#{db00200Controller.query.pageSize}" maxlength="4" size="4" style="text-align:right;" />
+		<p:commandButton style="float:right;" onclick="cd.show()" value="載入自定義選單" type="button" />
+		
+		<p:scrollPanel style="height:20em;width:72em;">
+			<p:inputTextarea onblur="checkValue(this,'hid',false)" id="querysql" value="#{db00200Controller.query.sql}" autoResize="true" style="height:30em;width:70em;" />
+		</p:scrollPanel>
+		參數欄  (JSON format) <br />
+		<p:inputTextarea id="queryparamsjson" onfocus="setVal(this,'hid')" value="#{db00200Controller.query.paramsJson}" autoResize="true" style="height:3em;width:70em;" />
+		<br />
+
+		<p:commandButton 
+			value="查詢" 
+			action="#{db00200Controller.doQuery()}" 
+			onstart="submitStart()" 
+			oncomplete="submitComplete()" 
+			update=":mainTab" process="@form" />
+<!-- 		<p:commandButton value="匯出" action="#{db00200Controller.doQueryEx()}" update="@none" process="@form" ajax="false" /> -->
+	</h:form>
+
+	<p:dialog modal="true" width="1000" height="450" header="使用者定義SQL" severity="alert" widgetVar="cd">
+		<p:dataTable filteredValue="#{db00200Controller.filters}" emptyMessage="#{risUIConstants.emptyMessage}" id="results" paginator="true" rows="10" var="result"
+				value="#{db00200Controller.userSqlresults}" rowIndexVar="itemIndex" paginatorPosition="bottom"
+				paginatorTemplate="#{risUIConstants.paginatorTemplate} #{risUIConstants.pageCountText} #{fn:length(db00200Controller.userSqlresults)}" widgetVar="resultTable">
+
+				<p:column headerText="" style="width:2%">
+					<h:outputText value="#{itemIndex+1}" />
+				</p:column>
+				<p:column style="width:93%" headerText="SQL" filterMatchMode="contains" filterBy="#{result.sqlQuery}">
+					<h:outputText value="#{result.sqlQuery}" />
+				</p:column>
+				<p:column headerText="" style="width:5%;text-align:center;">
+					<p:commandButton title="使用" action="#{db00200Controller.doSetup()}" update=":mainTab" process="@none" icon="ui-icon-plus" oncomplete="cd.hide()">
+						<f:setPropertyActionListener value="#{result.sqlQuery}" target="#{db00200Controller.query.sql}" />
+						<f:setPropertyActionListener value="#{result.sqlParamsTemplate}" target="#{db00200Controller.query.paramsJson}" />
+					</p:commandButton>
+				</p:column>
+		</p:dataTable>
+	</p:dialog>
+</ui:composition>
+

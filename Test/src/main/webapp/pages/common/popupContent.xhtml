@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ris="http://java.sun.com/jsf/composite/ris">
+<h:head>
+	<meta name="pageBase" contentUrl="#{application.contextPath}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>歡迎光臨戶役資訊服務網(雛型)</title>
+	<style>
+		body{
+			width:1370px !important;
+		}
+	</style>
+</h:head>
+<body>
+	<p:growl 
+			errorIcon="#{resource['images:error.png']}"
+			life="30000" 
+			autoUpdate="true" 
+			showDetail="true" 
+			sticky="false" 
+			id="growl2" 
+			for="growl2" />
+	
+	<applet id='risPdfPrinterApplet' name='risPdfPrinterApplet'
+			codebase='#{request.contextPath}/applets'
+			code='tw.gov.moi.ae.applet.RisPdfPrinterApplet.class'
+			archive='RisPdfPrinterApplet.jar'
+			width='0' height='0'/>
+	 
+	<script type="text/javascript">
+			//鎖滑鼠右鍵
+			$(document).bind("contextmenu",function(event){return false;});
+			$(document).ready(function(){
+				if (window.dialogArguments){
+					var args = window.dialogArguments;
+					$('#pdfTaskCode').val(args.taskCode);
+				}
+				var result = document.risPdfPrinterApplet.doShowVersion();
+				var jsonContent = eval("(" + result + ")");//將JSON文字轉成物件
+				// 顯示 applet 版號
+				$("#pdfviewerversionId").html(jsonContent.pdfviewerversion);
+// 				$("#pdfviewerversionId").html("P130225");
+			});
+		
+			//關閉popup window
+			function closePopUp(){
+				var result = new Object();
+				result.success= true;
+				window.returnValue = result;
+				self.close();	
+			}
+	</script>
+	<table>
+		<tr>
+			<td>
+				<h:form id="popupForm" prependId="false">
+					<ris:pdfViewer rendered="#{pdfTransformController.reviewPage}"/>
+					<h:inputHidden value="#{pdfTransformController.encodeStr}" id="encodeArea" 
+							rendered="#{!pdfTransformController.reviewPage}"/>
+				</h:form>
+					<span id="pdfviewerversionId" style="float:left;"/>
+					<input type="hidden" id="pdfTaskCode" />
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

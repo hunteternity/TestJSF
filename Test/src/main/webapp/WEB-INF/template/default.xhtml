@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<meta name="pageBase" contentUrl="#{application.contextPath}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+	<link rel="Bookmark" type="image/x-icon" href="/favicon.ico" />
+	<title>歡迎光臨戶役資訊服務網</title>
+
+
+	<!-- 版面樣式  -->
+	<link type="text/css" rel="stylesheet" href="#{application.contextPath}/faces/javax.faces.resource/default.css?ln=css" />
+	<!-- 網頁設計組 提供的預設樣式 -->
+	<!-- end 版面樣式 -->
+
+	<h:outputStylesheet library="css" name="jqzoom.css" />
+	<script type="text/javascript" src="#{application.contextPath}/faces/javax.faces.resource/jquery.jqzoom.js?ln=js" />
+	<!-- end 放大鏡  
+    -->
+	<script type="text/javascript" src="#{application.contextPath}/faces/javax.faces.resource/jquery.timeout.interval.idle.js?ln=js" />
+	<script type="text/javascript" src="#{application.contextPath}/faces/javax.faces.resource/ris.blockUi.js?ln=js" />
+	<script type="text/javascript" src="#{application.contextPath}/faces/javax.faces.resource/default.js?ln=js" />
+	<!-- end 版面樣式 -->
+
+	<ui:insert name="headIncludes" />
+</h:head>
+<f:view>
+	<h:body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+		<!-- 中央紅色訊息區塊 -->
+		<p:growl errorIcon="#{resource['images:error.png']}" life="30000" autoUpdate="false" showDetail="true" sticky="false" escape="false" id="growl2" />
+
+
+		<!-- document start -->
+		<table id="risSystemTableForm">
+			<tr>
+				<!-- banner -->
+				<td colspan="2" id="msgDiv">
+					<p:outputPanel>
+						<span class="msgSpan"> </span>
+						<div style="float: right; padding-right: 10px;">
+							<span style="font-size:1.5em;color:white;font-weight:bold;"> RIS 資料庫查詢工具 </span>
+						</div>
+					</p:outputPanel></td>
+			</tr>
+
+			<tr>
+				<!-- menutree -->
+				<td id="risnewleft">
+					<table>
+						<!-- adminOffice info system info -->
+						<tr>
+							<td background="#{resource['images:bg_info_07.jpg']}">
+								<div>
+									<img src="#{resource['images:new_info_11.jpg']}" />
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td background="#{resource['images:new_info_10.jpg']}">
+								<!-- user info start -->
+								<div class="userinfo">
+									<img src="#{resource['images:icon03.png']}" style="vertical-align: bottom; margin-right: 2px;" />
+									<h:outputText value="#{loginUser.userInfo.username}" />
+									<h:panelGroup rendered="#{loginUser.userInfo.ldap}">
+										<br/>
+										<h:outputText style="margin-left:2em;color:red;font-weight:100;font-size:14px;" value="(使用Ldap帳號登入)" />
+									</h:panelGroup>
+									<button id="logoutButton" type="button" style="float: rigth;" class="logoutinfo"
+										onclick="javascript:window.location.href='#{request.contextPath}/faces/pages/j_spring_security_logout'" /><br/>
+								</div>
+								<div style="line-height:1.5em;padding-left:2.7em;color:#2779AA;font-size:14px;font-weight:bold;">
+									<h:outputText value="#{loginUser.userInfo.fullName}"/><h:outputText value="(moi)" rendered="#{loginUser.userInfo.moiUser}"/><br/>
+									<h:outputText value="#{loginUser.userInfo.routineModifer?'':'非'}常規異動資料"/><br/>
+								</div>
+							</td>
+						</tr>
+
+						<!-- tree start here -->
+						<tr style="position: relative;">
+							<td background="#{resource['images:new_info_10.jpg']}" style="height: 605px;"><ui:include src="menu.xhtml" /></td>
+						</tr>
+						<!-- tree end here -->
+
+					</table>
+				</td>
+				<td style="position:fixed;top:2px;left:2px;z-index:999999;">
+					<div style="z-index:999999;">
+						<input type="button" title="縮小選單" value="-" 
+							style="cursor:pointer;width:20px;height:24px;" id="dbToolTempletCloseMenuBt" onclick="triggerDbToolMenu(this,1)"/>
+						<input type="button" title="展開選單" value="+" 
+							style="display:none;cursor:pointer;width:20px;height:24px;" id="dbToolTempletOpenMenuBt" onclick="triggerDbToolMenu(this,2)"/>
+					</div>
+				</td>
+				<!-- content -->
+				<td id="risnewcontent" height="707px">
+					<table width="100%">
+						<tr>
+							<td height="707px" id="risnewcontentForm" valign="top" style="background-color: #f4fcfe; padding: 15px 5px;">
+								<!-- for other js can use jQuery--> <p:spinner style="display:none;" />
+								
+								<b style="font-size:18pt;">目前站點：${SYSTEM_CONFIG.hostPosition} </b>
+								<BR/>
+								<div id="masterForm">
+									<ui:insert name="right" />
+									<ui:insert name="formNode" />
+								</div>
+								<div id="dialogForm">
+									<ui:insert name="dialogs" />
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+			<tr>
+				<td background="#{resource['images:new_info_12.jpg']}">&nbsp;</td>
+				<td></td>
+			</tr>
+		</table>
+
+	</h:body>
+</f:view>
+</html>

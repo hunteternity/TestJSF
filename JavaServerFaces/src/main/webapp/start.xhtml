@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:body>
+	<h2>This is start.xhtml</h2>
+
+	<h:form>
+		<h:commandButton action="#{empData.processPage1()}" value="Page1" />
+		<h:commandButton action="#{empData.processPage2()}" value="Page2" />
+	</h:form>
+
+	<h:form>
+	<h:dataTable value="#{empData.empList}" var="c"
+		styleClass="order-table" headerClass="order-table-header"
+		rowClasses="order-table-odd-row,order-table-even-row" border="1">
+		<h:column>
+			<f:facet name="header">EmpNo</f:facet>
+    				#{c.empno}
+    			</h:column>
+		<h:column>
+			<f:facet name="header">Ename</f:facet>
+			<h:inputText value="#{c.ename}" size="5" rendered="#{c.editable}" />
+
+			<h:outputText value="#{c.ename}" rendered="#{not c.editable}" />
+		</h:column>
+		<h:column>
+		<f:facet name="header">修改</f:facet>
+		<h:commandLink value="Edit" action="#{empData.editAction(c)}"
+			rendered="#{not c.editable}" />
+		</h:column>
+		<h:column>
+		<f:facet name="header">刪除</f:facet>
+		<h:commandLink value="delete" action="#{empData.delete(c)}"/>
+		</h:column>
+	</h:dataTable>
+	
+	 <h:commandButton value="Save Changes" action="#{empData.saveAction()}" />
+	</h:form>
+
+	<br/>
+	<h:form>
+		<h:inputText value="#{empData.newEmp}" size="5"  />
+		<h:commandButton value="新增" action="#{empData.insertAction()}" />
+	</h:form>
+	
+</h:body>
+</html>

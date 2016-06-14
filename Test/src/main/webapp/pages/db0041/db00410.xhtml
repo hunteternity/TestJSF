@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris" xmlns:ms="http://java.sun.com/jsf/composite/ms" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template/default.xhtml">
+
+
+	<ui:define name="right">
+		<ui:include src="db00410_cssStyle.xhtml" />
+			<p:panel header="應用程式檔案下載，選擇專案" id="panelarea">
+				<h:form>
+					<c:forEach items="#{db00410Controller.baseProjects}" var="projectName">
+						<p:commandButton action="#{db00410Controller.changeProject}" 
+							value="#{projectName}" >
+							<f:setPropertyActionListener value="#{projectName}" target="#{db00410Controller.targetProject}" />
+						</p:commandButton>
+					</c:forEach>
+				</h:form>
+				<h:form id="formFolders" rendered="#{not empty db00410Controller.folderNames}">
+					<ui:include src="db00410_folderList.xhtml" />
+				</h:form>
+				<h:form id="formFiles" rendered="#{not empty db00410Controller.folderNames}">
+					<ui:include src="db00410_fileList.xhtml" />
+				</h:form>
+			</p:panel>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris"
+	xmlns:ms="http://java.sun.com/jsf/composite/ms" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	目前路徑：#{db00400Controller.targetProject}/log/#{db00400Controller.currentPath} <br />
+	<ul>
+		<h:panelGroup rendered="#{not empty db00400Controller.currentParent}">
+			<li class="undo"><p:commandLink value="回上層" action="#{db00400Controller.changeToParent}" ajax="false">
+				</p:commandLink></li>
+		</h:panelGroup>
+		<c:forEach items="#{db00400Controller.currentFiles}" var="fileInfo">
+			<h:panelGroup rendered="#{fileInfo.type eq 'file'}">
+				<li class="file"><p:commandLink value="#{fileInfo.text}" onstart="clearFileUID('#{p:component('fileUID')}')"
+						oncomplete="downloadFile('#{p:component('fileUID')}')" process="@none" update="fileUID"
+						action="#{db00400Controller.doDownloadLogFile(fileInfo.path)}">
+					</p:commandLink></li>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{fileInfo.type eq 'dir'}">
+				<li class="folder"><p:commandLink value="#{fileInfo.text}" ajax="false" action="#{db00400Controller.changeFolder}">
+						<f:setPropertyActionListener value="#{fileInfo.path}" target="#{db00400Controller.currentPath}" />
+					</p:commandLink></li>
+			</h:panelGroup>
+		</c:forEach>
+	</ul>
+
+	<h:inputHidden id="fileUID" value="#{db00400Controller.downloadUUID}" />
+
+</ui:composition>
+

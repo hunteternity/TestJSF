@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:ris="http://java.sun.com/jsf/composite/ris">
+<h:head>
+	<meta name="pageBase" contentUrl="#{application.contextPath}" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+	<link rel="Bookmark" type="image/x-icon" href="/favicon.ico" />
+	<title>歡迎光臨戶役資訊服務網</title>
+
+	<!-- 版面樣式  -->
+	<link type="text/css" rel="stylesheet" href="#{application.contextPath}/faces/javax.faces.resource/default.css?ln=css" />
+	<!-- 版面樣式  end -->
+
+	<h:outputStylesheet library="css" name="jqzoom.css" />
+
+	<script type="text/javascript" src="#{application.contextPath}/faces/javax.faces.resource/ris.blockUi.js?ln=js" />
+	<script type="text/javascript" src="#{application.contextPath}/faces/javax.faces.resource/default.js?ln=js" />
+	<script type="text/javascript" src="#{application.contextPath}/faces/javax.faces.resource/jquery.jqzoom.js?ln=js" />
+	<ui:insert name="headIncludes" />
+	<base target="_self"></base>
+</h:head>
+
+<f:view>
+
+	<h:body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="width:1349px;">
+		<p:growl errorIcon="#{resource['images:error.png']}" life="30000" autoUpdate="false" showDetail="true" sticky="false" escape="false" id="growl2" />
+		<p:spinner style="display:none;" />
+		<!-- enctype="multipart/form-data"  -->
+		<div id="popupForm">
+			<!-- 實際顯示位置 -->
+			<ui:insert name="right" />
+			<div style="position: absolute; right: 0.2em;">
+				<span id="popupDateSpan"></span>
+			</div>
+		</div>
+	</h:body>
+
+</f:view>
+</html>

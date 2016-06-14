@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ris="http://java.sun.com/jsf/composite/ris" 
+	xmlns:ms="http://java.sun.com/jsf/composite/ms"
+	xmlns:rist="http://risfaces.iisigroup.com/rist">
+
+	<p:fieldset legend="資料查詢明細">
+		<table style="white-space: nowrap;">
+			<tr>
+				<th width="10%">ID：</th>
+				<td>
+				<h:outputText value="#{db00510Controller.detail.id}" />
+				</td>
+			</tr>
+			<tr>
+				<th width="10%">查詢站點：</th>
+				<td>
+				<h:outputText value="#{db00510Controller.detail.hostPosition}" />
+				</td>
+			</tr>
+			<tr>
+				<th>主機名稱：</th>
+				<td><h:outputText value="#{db00510Controller.detail.serverName}" /></td>
+			</tr>
+			<tr>
+				<th>使用者帳號：</th>
+				<td><h:outputText value="#{db00510Controller.detail.username}" /></td>
+			</tr>
+			<tr>
+				<th>最大查詢筆數：</th>
+				<td><h:outputText value="#{db00510Controller.detail.resultCount}" /></td>
+			</tr>
+			<tr>
+				<th>查詢頁數：</th>
+				<td><h:outputText value="#{db00510Controller.detail.pageNo}" /></td>
+			</tr>
+			<tr>
+				<th>執行日期：</th>
+				<td>
+				<h:outputText value="#{db00510Controller.detail.execTime}" >
+					<f:convertDateTime type="both" locale="zh_TW" timeZone="Asia/Taipei"/>
+				</h:outputText>
+				</td>
+			</tr>
+			<tr>
+				<th width="10%">SQL：</th>
+				<td>
+				<p:inputTextarea readonly="true" 
+						value="#{db00510Controller.detail.fullSqlQuery}" 
+						style="height:15em;width:68em;" />
+				</td>
+			</tr>
+		</table>
+		<ms:popupCloseButton 
+			pid="popupDetail" value="關閉" />
+	</p:fieldset>
+</ui:composition>

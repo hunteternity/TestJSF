@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<script data-require="angular.js@*" data-semver="1.3.15"
+	src="https://code.angularjs.org/1.3.15/angular.js"></script>
+<script data-require="ui-bootstrap@*" data-semver="0.12.1"
+	src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
+
+<meta charset="UTF-8">
+<title>單位與服務介面關聯異動功能 - FFS952E</title>
+<!-- 宣告 thymleaf tag include page 用 -->
+</head>
+
+<body>
+
+
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">憑証資訊</h3>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="form-group col-sm-4">
+					<label class="control-label" for="rnoj1">上傳的憑證檔案<font
+						color="red">(.cer)</font>：
+					</label>
+				</div>
+
+				<div class="form-group col-sm-8">
+					<input id="uploadCert" name="uploadCert" type="file"
+						data-ng-click="onSelectCheck()"
+						data-ng-file-select="onFileSelect($files)" data-ng-model="files">
+					<input id="certObj" name="certObj" type="hidden"
+						data-ng-model="model.certObj">
+				</div>
+			</div>
+			</br>
+			<table class="table table-bordered">
+				<thead class=tableHeader>
+					<tr style="cursor: pointer">
+						<th style="width: 20%">憑證序號</th>
+						<th style="width: 40%">憑證主旨</th>
+						<th style="width: 15%">憑證發行日</th>
+						<th style="width: 15%">憑證到期日</th>
+						<th style="width: 10%">憑證效期</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style="cursor: pointer">
+						<th style="width: 20%">{{cert.serialNumber}}</th>
+						<th style="width: 40%">{{cert.subject}}</th>
+						<th style="width: 15%">{{cert.notBefore}}</th>
+						<th style="width: 15%">{{cert.notAfter}}</th>
+						<th style="width: 10%">{{cert.validYear}}</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+	<script>
+var gOperationType_Query = "query";
+var gOperationType_Create = "create";
+var gOperationType_Update = "update";
+var gOperationType_Delete = "delete";
+
+(function() {
+    var app = angular.module("ffs952eApp", ['taqCommonModule']);
+
+    //定義ffs952eService，會對應後端ffs952eResource controller的相關method
+    app.factory('ffs952eService',function(cResource){
+
+        var resource = cResource('rest/:clientId/:orgId',{ffs952edata :"@ffs952edata"});
+
+        return {
+            save : function(model){
+                return resource.save(model); // post
+            },
+            remove : function(bind){
+                return resource.remove(bind); // delete
+            },
+            findAll : function(url,param,omitAlerts){
+                var options = {'omitAlerts':omitAlerts||false};
+                return resource.execute(url , param, options);
+            },
+            initLoading : function(param, omitAlerts) {
+                var options = {
+                    'omitAlerts' : omitAlerts || false
+                };
+                return resource.execute('', param, options);
+            },
+            execute : function(url, param, omitAlerts) {
+                var options = {
+                    'omitAlerts' : omitAlerts || false
+                };
+                return resource.execute(url, param, options);
+            },
+            create : function(model){
+                return resource.create(model); // put
+            }
+        };
+
+    });
+
+    //列印報表請用cWindow, 另開視窗呈現報表
+    app.factory('ffs952ePrintService',function(cWindow) {
+        return {
+            print : function (url , param) {
+                cWindow.popupLarge(url, param);
+            }
+        };
+    });
+
+    //定義ffs952eController，並傳入$scope, 先前宣告的ffs952eService， cStateManager, cAlerter等需要的service
+    app.controller('ffs952eController', function($scope,ffs952eService,ffs952ePrintService, cStateManager, cAlerter, cResource, $modal) {
+
+        //宣告狀態傳遞情形
+        var state = cStateManager([{ name: 'init', from: 'NONE',   to: 'INIT'  },
+                      { name: 'query', from: ['INIT','CHANGED'],   to: 'QUERYED'},
+                      { name: 'reset', from : [ 'QUERYED', 'CHANGED' ],   to: 'INIT'},
+                      { name : 'change', from : [ 'INIT', 'QUERYED' ],    to : 'CHANGED'},
+                      { name: 'print', from: ['INIT','RESETD'],   to: 'PRINT'}]);
+
+        //初始化狀態
+        state.init();
+
+        $scope.applyLogDatas = [];      // 初始化陳核記錄applyLogDatas陣列
+        $scope.orgList = [];            // 初始化單位清單orgList陣列
+        $scope.apiList = [];            // 初始化服務介面清單apiList陣列
+        $scope.clients = [];
+        $scope.files = null;
+        $scope.cert = null;             //憑證資訊object
+        
+        // loading預設值，預設值
+        var initLoading = function(ffs952edata, omitAlerts) {
+            var result = ffs952eService.execute('rest/init', {}, omitAlerts || false);
+            result.then(function(response) {
+               $scope.model = response;
+               if(ffs952edata != undefined && ffs952edata.selectedOrgId != null && ffs952edata.selectedOrgId != ""){
+                   $scope.model.selectedOrgId = ffs952edata.selectedOrgId;
+               }
+               $scope.orgList = response.orgList;
+               $scope.apiList = response.apiList;
+               $scope.cert = response.certObj; 
+            });
+        };
+        initLoading();
+        
+        // 與reset區別是，此resetDisplay不會清掉訊息欄之訊息
+        $scope.resetDisplay = function(){
+         // 抓出陳核者
+            var temp = $scope.model;
+            $scope.model = {};
+            $scope.model.applyUserId = temp.applyUserId;
+            $scope.model.orgId = temp.orgId;
+            $scope.model.orgName = temp.orgName;
+            $scope.cert = {};
+            $scope.clients = [];
+            state.reset();
+        };
+        /**
+         * 檢查上傳的副檔名是否正確
+         */
+        $scope.checkUploadFile = function ($files){
+            var isCheck = true;
+            $scope.alerts = [];
+            cAlerter.clear();
+            
+            if($files.length != 0){
+                var $file = $files[0];
+                var regExp = /\.(cer)$/i;  //允許的憑證副檔名
+               
+                if(!regExp.test($file.name)){
+                    $scope.alerts.push({
+                        type : 'danger',
+                        msg : '只允許上傳.cer憑證檔，謝謝！'
+                    });
+                }
+                
+                if($file.type != 'application/x-x509-ca-cert'){
+                    $scope.alerts.push({
+                        type : 'danger',
+                        msg : '上傳之.cer憑證檔不符合x509格式!'
+                    });
+                }
+            }
+            
+            if($scope.alerts !=null && $scope.alerts.length > 0){
+                isCheck = false;
+            }
+            return isCheck;
+        };
+        
+        /**
+         * 清掉已經選擇的檔案 
+         */
+        $scope.onSelectCheck = function (){
+            $scope.files = null;
+        };
+        
+        /**
+         * 上傳憑證檔案
+         */
+        $scope.onFileSelect = function($files, omitAlerts){
+            $scope.files = [];
+            if($files.length != 0){
+                if($scope.checkUploadFile($files)){     //檢核副檔名是否正確
+                    var checkMessage = "";
+                    var ffs952edata = $scope.model;
+                    var result = ffs952eService.execute('rest/checkCertExist',ffs952edata, omitAlerts || false);
+                    result.then(function(response) {
+                        checkMessage = response.checkCertMsg;
+                        if(checkMessage != ""){
+                            if (confirm(checkMessage)) {    //檢核是否已匯入憑證並提示是否要覆蓋掉
+                                $scope.upload($files, ffs952edata);
+                            }
+                        }else{
+                            $scope.upload($files, ffs952edata);
+                        }
+                    });
+                }
+            }
+        };
+        
+        $scope.upload = function($files, ffs952edata){
+            $scope.files[0] = $files[0];
+            cResource().uploadFile({
+                url : 'testView/uploadCert',
+                data : { orgId : $scope.model.orgId },
+                file : $files[0]
+            }).success(function(data, status, headers, config){
+                $scope.cert = data.data;
+            }).error(function(data, status, headers, config) {
+                console.log("upload cer file fail!!!!");
+            });
+        };
+        
+        $scope.save = function() {            
+            if (!$scope.validateInupt(gOperationType_Update)) {  // 代表有前端js檢核錯誤
+                return;
+            }
+            
+            $scope.gainInputModel();
+            ffs952eService.save($scope.model).then(function(response) {
+                var isClearAlert = false;
+                var isClearModel = false;
+                $scope.model.selectedOrgId = response.orgId;
+                $scope.queryByOrgId($scope.model, false, isClearAlert, isClearModel);
+                state.query();
+            });
+        };
+        
+        /**
+         * 前端檢核
+         */
+        $scope.validateInupt = function (operationType){
+            var isValid = true;
+            $scope.alerts = [];
+            cAlerter.clear();
+            
+            if ($scope.model.orgId == null || $scope.model.orgId == "") {
+                $scope.alerts.push({
+                    type : 'danger',
+                    msg : '單位代碼必填'
+                });
+            }
+            if ($scope.model.clientId == null || $scope.model.clientId == "") {
+                $scope.alerts.push({
+                    type : 'danger',
+                    msg : '單位統編必填'
+                });
+            }else{
+                var digit = '8';
+                if(!mathRegex($scope.model.clientId, digit, false, false)){
+                    $scope.alerts.push({
+                        type : 'danger',
+                        msg : '請輸入單位統編需為8碼以內之數字'
+                    }); 
+                }
+            }
+            switch (operationType){
+            case gOperationType_Query:
+            case gOperationType_Delete:
+                break;
+            case gOperationType_Create:
+            case gOperationType_Update:
+                if ($scope.model.contact == null || $scope.model.contact == "") {
+                    $scope.alerts.push({
+                        type : 'danger',
+                        msg : '聯絡人姓名必填'
+                    });
+                }
+                if ($scope.model.email == null || $scope.model.email == "") {
+                    $scope.alerts.push({
+                        type : 'danger',
+                        msg : 'E-mail必填'
+                    });
+                }
+//                else{
+//                    if(!matchMailRegEx($scope.model.email)){
+//                        $scope.alerts.push({
+//                            type : 'danger',
+//                            msg : 'E-mail格式錯誤'
+//                        }); 
+//                    }
+//                }
+                break;
+            }
+            
+            if($scope.alerts !=null && $scope.alerts.length > 0){
+                isValid = false;
+            }
+            return isValid;
+        };
+
+        /**
+         * 新增
+         */
+        $scope.create = function(){
+            if (!$scope.validateInupt(gOperationType_Create)) {  // 代表有前端js檢核錯誤
+                return;
+            }
+            
+            $scope.gainInputModel();
+            ffs952eService.create($scope.model).then(
+               function(response){
+                   var isClearAlert = false;
+                   var isClearModel = false;
+                   $scope.model.selectedOrgId = response.orgId;
+                   $scope.queryByOrgId($scope.model, false, isClearAlert, isClearModel);
+                   state.query();
+              });
+        };
+
+        /**
+         * 取得INPUT MODEL
+         */
+        $scope.gainInputModel = function(){
+            var newarray = [];
+            $scope.model.selectedAPIList = [];
+            
+            for(var i in $scope.apiList) {
+              var api = $scope.apiList[i];
+              if(api.selected) {
+                newarray.push(api);
+              }
+            }
+            $scope.model.selectedAPIList = newarray;
+            $scope.model.files = null;
+            $scope.model.certObj = $scope.cert;
+            
+            //加密validateCode
+            $scope.model.validateCod = do_encryptBase64($scope.model.validateCod, $scope.model.publicKey, $scope.model.sessionId);
+        };
+        
+        /**
+         * 依單位查詢
+         */
+        $scope.queryByOrgId = function(ffs952edata, omitAlerts, isClear, isModelClear) {
+            var selectedOrg = $scope.model.selectedOrgId;
+            $scope.queryClear(isClear, isModelClear);
+            $scope.model.selectedOrgId = selectedOrg;
+            $scope.model.runKey = '0';
+            ffs952edata = $scope.model;
+            
+            var result = ffs952eService.findAll('rest/find/all',ffs952edata,omitAlerts||false);
+            result.then(function(response) {
+                if(response.clientList != null && response.clientList.length > 0 ){
+                    $scope.clients = response.clientList;
+                    $scope.model = response;
+                }else{
+                    $scope.model.selectedOrgId = selectedOrg;
+                    initLoading($scope.model);
+                }
+            });
+        };
+        
+        $scope.query = function(ffs952edata, omitAlerts) {
+            var selectedOrg = $scope.model.selectedOrgId;
+            var selectedClientId = $scope.model.selectClientId;
+            $scope.queryClear();
+            $scope.model.selectedOrgId = selectedOrg;
+            $scope.model.runKey = '1';
+            ffs952edata = $scope.model;
+            
+            var result = ffs952eService.findAll('rest/find/all',ffs952edata,omitAlerts||false);
+            result.then(function(response) { 
+                $scope.model = response;
+                $scope.apiList = response.apiList;
+                $scope.model.selectedAPIList = response.selectedAPIList;
+                $scope.cert = response.certObj; 
+//                $scope.clientList = response.clientList;
+                $scope.clients = response.clientList;
+                //勾選擁有的權限
+                angular.forEach($scope.apiList, function(api){
+                    angular.forEach($scope.model.selectedAPIList, function(selectedAPI){
+                        if(api.value == selectedAPI.value){
+                            api.selected = true;
+                        }
+                    });
+                });
+                
+                if ($scope.model.contact != null && $scope.model.contact != "") {
+//                   利用data-ng-disabled="inState('QUERYED')"控制
+                    state.query();     //更新狀態
+                }else{
+                    initLoading();
+                    $scope.resetDisplay();
+                }
+            });
+        };
+
+        $scope.changeOrg = function(ffs952edata, omitAlerts){
+            $scope.model.runKey = '2';
+            ffs952edata = $scope.model;
+            $scope.cert = {};
+            var result = ffs952eService.findAll('rest/find/all',ffs952edata,omitAlerts||false);
+            result.then(function(response) { 
+                $scope.cert = response.certObj; 
+            });
+        };
+        
+        $scope.reset = function(){
+            $scope.alerts = null;
+            cAlerter.clear();
+            $scope.cert = null;
+            $scope.files = [];
+            $scope.clients = [];
+            // 進入初始化
+            initLoading();
+            state.reset();
+        };
+
+        $scope.remove = function() {
+            var tempModel = $scope.model;
+            if (!$scope.validateInupt(gOperationType_Delete)) {
+                return;
+            }
+            
+            if (confirm("是否確定刪除" + $scope.model.clientId + "此服務介面使用帳號?")) {
+                ffs952eService.remove({
+                    clientId : $scope.model.clientId,
+                    orgId : $scope.model.orgId
+                }).then(function(response) {
+                    var isClearAlert = false;
+                    var isClearModel = true;
+                    $scope.model.selectedOrgId = tempModel.orgId;
+                    $scope.queryByOrgId(tempModel, false, isClearAlert, isClearModel);
+                });
+            }
+        };
+        
+        /**
+         * //勾選擁有的權限
+         */
+        $scope.applySelectedAPI = function(allAPIList, selectedAPIList){
+            $scope.apiList = allAPIList;
+            $scope.model.selectedAPIList = selectedAPIList;
+            angular.forEach($scope.apiList, function(api){
+                angular.forEach($scope.model.selectedAPIList, function(selectedAPI){
+                    if(api.value == selectedAPI.value){
+                        api.selected = true;
+                    }
+                });
+            });
+        };
+        
+        /**
+         * 查詢前的clear
+         */
+        $scope.queryClear = function(isClearAlert, isClearModel){
+            if(isClearAlert || isClearAlert == undefined){
+                $scope.alerts = null;
+                cAlerter.clear();
+            }
+            if(isClearModel || isClearModel == undefined){
+                $scope.model.clientId = null;
+                $scope.model.orgId = null;
+                $scope.model.contact = null;
+                $scope.model.phone = null;
+                $scope.model.email = null;
+                $scope.model.validateCod = null;
+                $scope.model.certObj = null;
+                $scope.model.selectedAPIList = [];
+                $scope.cert = {};
+                $scope.files = [];
+                $scope.clients = [];
+                //清除所有勾選
+                angular.forEach($scope.apiList, function(api){
+                    api.selected = false;
+                });
+            }
+            state.reset();
+        };
+    });
+
+})();
+
+
+</script>
+
+	<!-- <script type="text/javascript" th:src="@{/js/ffs952e.js}"></script> -->
+	<!-- <script type="text/javascript" th:src="@{/scripts/crypto/base64.js}"></script></body> -->
+	<!-- <script type="text/javascript" th:src="@{/scripts/crypto/jsbn.js}"></script></body> -->
+	<!-- <script type="text/javascript" th:src="@{/scripts/crypto/prng4.js}"></script></body> -->
+	<!-- <script type="text/javascript" th:src="@{/scripts/crypto/rng.js}"></script></body> -->
+	<!-- <script type="text/javascript" th:src="@{/scripts/crypto/rsa.js}"></script></body> -->
+	<!-- <script type="text/javascript" th:src="@{/scripts/uaa_common.js}"></script> -->
+</body>
+</body>
+
+</html>
