@@ -1,6 +1,7 @@
 package com.jamari.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -18,9 +19,33 @@ public class PageController implements Serializable {
 	List<Emp> empList = getAll();
 	EmpServiceImpl empSvc;
 	String newEmp;
-
+	List<String> c1 =categories1();
+	List<String> c2 =categories2();
+	
+	public List<String> getC1(){
+		return c1;
+	}
+	public List<String> getC2(){
+		return c2;
+	}
+	
 	public String getNewEmp() {
 		return newEmp;
+	}
+	
+	public List<String> categories1(){
+		List<String> cate = new ArrayList<String>();
+		cate.add("a");
+		cate.add("b");
+		cate.add("c");
+		return cate;
+	}
+	public List<String> categories2(){
+		List<String> cate = new ArrayList<String>();
+		cate.add("A");
+		cate.add("B");
+		cate.add("C");
+		return cate;
 	}
 
 	public void setNewEmp(String newEmp) {
