@@ -72,7 +72,7 @@ public class PageController implements Serializable {
 	public String editAction(Emp emp) {
 		emp.setEditable(true);
 		return null;
-	}
+	}  
 
 	public String saveAction() {
 		// get all existing value but set "editable" to false
@@ -89,7 +89,7 @@ public class PageController implements Serializable {
 	public String delete(Emp emp){
 		empSvc.deleteByEmpNo(emp.getEmpno());
 		empList = getAll();
-		return null;
+		return null;   
 	}
 	
 	public String insertAction(){
