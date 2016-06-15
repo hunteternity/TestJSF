@@ -2,16 +2,22 @@ package com.jamari.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
-@ManagedBean
+import com.jamari.model.Emp;
+import com.jamari.service.serviceImpl.EmpServiceImpl;
+
+@ManagedBean(name = "empData")
 public class MultiSelectView {
 
 	private List<SelectItem> categories;
 	private String selection;
+	
+	
 
 	@PostConstruct
 	public void init() {
@@ -68,5 +74,71 @@ public class MultiSelectView {
 
 	public void setSelection(String selection) {
 		this.selection = selection;
+	}
+	
+	
+	
+	
+	
+	
+	
+	List<Emp> empList = getAll();
+	EmpServiceImpl empSvc;
+	String newEmp;
+	
+	
+	public String getNewEmp() {
+		return newEmp;
+	}
+	
+	public void setNewEmp(String newEmp) {
+		this.newEmp = newEmp;
+	}
+
+	private List<Emp> getAll() {
+		empSvc = new EmpServiceImpl();
+		return empSvc.getAll();
+	}
+
+	public String processPage1() {
+		return "success";
+	}
+
+	public String processPage2() {
+		return "success";
+	}
+
+	public List<Emp> getEmpList() {
+		return empList;
+	}
+
+	public String editAction(Emp emp) {
+		emp.setEditable(true);
+		return null;
+	}
+
+	public String saveAction() {
+		// get all existing value but set "editable" to false
+		for (Emp emp : empList) {
+			if (emp.getEditable()) {
+				empSvc.updateByEmpNo(emp.getEmpno(), emp.getEname());
+				emp.setEditable(false);
+			}
+		}
+		// return to current page
+		return null;
+	}
+	
+	public String delete(Emp emp){
+		empSvc.deleteByEmpNo(emp.getEmpno());
+		empList = getAll();
+		return null;
+	}
+	
+	public String insertAction(){
+		empSvc.insertByEname(newEmp); 
+		empList = getAll();
+		newEmp = "";
+		return null;
 	}
 }
