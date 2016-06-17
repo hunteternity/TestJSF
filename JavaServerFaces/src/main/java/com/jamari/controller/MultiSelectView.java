@@ -11,7 +11,7 @@ import javax.faces.model.SelectItemGroup;
 import com.jamari.model.Emp;
 import com.jamari.service.serviceImpl.EmpServiceImpl;
 
-@ManagedBean(name = "empData")
+@ManagedBean
 public class MultiSelectView {
 
 	private List<SelectItem> categories;

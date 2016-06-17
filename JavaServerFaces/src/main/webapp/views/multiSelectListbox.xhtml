@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -6,25 +5,38 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"> 
+	xmlns:p="http://primefaces.org/ui">
 
 <h:body>
 	<h:form>
-    <p:multiSelectListbox value="#{empData.c1}" effect="slide" header="Categories" showHeaders="true">
-        <f:selectItems value="#{empData.c2}" />
-    </p:multiSelectListbox>
- 
-    <p:commandButton value="Save" icon="ui-icon-check" update="out" style="display:block;margin:10px 0" />
- 
-    <h:outputText id="out" value="Value: #{multiSelectView.selection}" style="display:block" />
-    
-    <h:selectOneMenu  value="#{empData.level1Value}"  immediate="true" valueChangeListener="#{empData.valueChangeMethod}" >
-    	<f:selectItems value="#{empData.level1}" />
-     </h:selectOneMenu>
+		<p:multiSelectListbox value="#{empData.c1}" effect="slide"
+			header="Categories" showHeaders="true">
+			<f:selectItems value="#{empData.c2}" />
+		</p:multiSelectListbox>
+
+		<p:commandButton value="Save" icon="ui-icon-check" update="out"
+			style="display:block;margin:10px 0" />
+
+		<h:outputText id="out" value="Value: #{multiSelectView.selection}"
+			style="display:block" />
+  </h:form>   
+  
+	<h:form>
+
+		<h:selectOneMenu value="#{empData.level1Value}" onchange="submit()" valueChangeListener="#{empData.valueChangeMethod}">
+			<f:selectItems value="#{empData.level1}" />
+		</h:selectOneMenu>
+
+		<h:selectOneMenu value="#{empData.level2Value}" >		
+			<f:selectItems value="#{empData.level02[empData.level1Value]}" />
+		</h:selectOneMenu>
+		
+		
      
-     <h:selectOneMenu   >
-    	<f:selectItems value="#{empData.level02[empData.level1Value]}" />
-     </h:selectOneMenu>
-</h:form>
+  </h:form>   
+     
+     
+     
+   
 </h:body>
 </html>
