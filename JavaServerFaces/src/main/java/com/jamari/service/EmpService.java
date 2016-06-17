@@ -15,4 +15,5 @@ public interface EmpService {
 	
 	public int insertByEname(String ename);
 	
+	public List<Emp> getByDeptNo(int deptno);
 }

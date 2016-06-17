@@ -2,7 +2,7 @@ package com.jamari.service.serviceImpl;
 
 import java.util.List;
 
-import com.jamari.dao.EmpJDBCDAO;
+import com.jamari.dao.daoImpl.EmpJDBCDAO;
 import com.jamari.model.Emp;
 import com.jamari.service.EmpService;
 
@@ -29,6 +29,11 @@ public class EmpServiceImpl implements EmpService {
 	public int insertByEname(String newEmp) {
 		return dao.insertByEname(newEmp);
 			
+	}
+
+	@Override
+	public List<Emp> getByDeptNo(int deptno) {
+		return dao.getByDeptNo(deptno);
 	}
 	
 }
