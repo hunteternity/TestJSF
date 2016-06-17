@@ -8,19 +8,18 @@
 	xmlns:p="http://primefaces.org/ui"> 
 
 <h:body>
-	<h:form>
-	    <h:selectOneMenu onchange="submit()" valueChangeListener="#{empData.valueChangeMethod}" >
+	<h:form style="display:inline">
+	    <h:selectOneMenu onchange="submit()"  valueChangeListener="#{empData.valueChangeMethod}" >
 	    	<f:selectItems value="#{empData.level1}"  />
 	    </h:selectOneMenu>
-	</h:form>  
-	<h:form>   
-	     <h:selectOneMenu onchange="submit()" valueChangeListener="#{empData.valueChangeMethod02}">
+	</h:form>
+	<h:form style="display:inline">   
+	     <h:selectOneMenu onchange="submit()"  valueChangeListener="#{empData.valueChangeMethod02}">
 	    	<f:selectItems value="#{empData.level02[empData.level1Value]}" />
 	     </h:selectOneMenu>
-	 </h:form>    
-	     <h:selectOneMenu >
+	 </h:form> 
+	     <h:selectOneMenu>
 	    	<f:selectItems value="#{empData.level03[empData.level2Value]}"/>
 	     </h:selectOneMenu>
-	
 </h:body>
 </html>
