@@ -8,14 +8,33 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:body>
-	<h:form>
-		<h:selectOneMenu onchange="submit()" valueChangeListener="#{page2Con.valueChangeMethod}">
+	<h:form style="display:inline">
+		<h:selectOneListbox onclick="submit()"
+			valueChangeListener="#{page2Con.valueChangeMethod}">
 			<f:selectItems value="#{page2Con.depts}" />
-		</h:selectOneMenu>
+		</h:selectOneListbox>
 	</h:form>
-	<h:selectOneMenu>
-		<f:selectItems value="#{page2Con.emps[page2Con.deptValue]}" />
-	</h:selectOneMenu>
+	<h:form style="display:inline">
+		<h:selectOneListbox rendered="#{page2Con.isLevel02}"
+			onclick="submit()"
+			valueChangeListener="#{page2Con.valueChangeMethod02}">
+			<f:selectItems value="#{page2Con.emps[page2Con.deptValue]}" />
+		</h:selectOneListbox>
+	</h:form>
+
+	<br />
+
+	<h:graphicImage rendered="#{page2Con.isLevel03}"
+		value="/ImageServlet/?empno=#{page2Con.imgno}" width="200" />
+
+	<h:form id="form" enctype="multipart/form-data">
+		<h:inputFile id="file" value="#{page2Con.file}" />
+		<h:commandButton value="Upload"
+			action="#{page2Con.upload(page2Con.imgno)}">
+			<f:ajax execute="file" render="@all" />
+		</h:commandButton>
+	</h:form>
 	
+	<p:graphicImage value="#{page2Con.getImageFromDB(page2Con.imgno)}"></p:graphicImage>
 </h:body>
 </html>

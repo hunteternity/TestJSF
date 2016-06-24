@@ -25,6 +25,25 @@ public class PageController implements Serializable {
 	EmpServiceImpl empSvc;
 	String newEmp;
 	
+	Boolean isLevel02 = false;
+	Boolean isLevel03 = false;
+
+	public Boolean getIsLevel02() {
+		return isLevel02;
+	}
+
+	public void setIsLevel02(Boolean isLevel02) {
+		this.isLevel02 = isLevel02;
+	}
+
+	public Boolean getIsLevel03() {
+		return isLevel03;
+	}
+
+	public void setIsLevel03(Boolean isLevel03) {
+		this.isLevel03 = isLevel03;
+	}
+
 	private List<SelectItem> level1 = getLevel01Items();
 	private Map<String,List<SelectItem>> level02 =getLevel02Items();
 	private Map<String,List<SelectItem>> level03 =getLevel03Items();
@@ -67,6 +86,7 @@ public class PageController implements Serializable {
 			if (emp.getEditable()) {
 				empSvc.updateByEmpNo(emp.getEmpno(), emp.getEname());
 				emp.setEditable(false);
+				System.out.println(emp.getEname());
 			}
 		}
 		// return to current page
@@ -80,10 +100,12 @@ public class PageController implements Serializable {
 	}
 	
 	public String insertAction(){
+		System.out.println(newEmp);
 		empSvc.insertByEname(newEmp); 
 		empList = getAll();
 		newEmp = "";
 		return null;
+		
 	}
 	
 	/***
@@ -138,10 +160,13 @@ public class PageController implements Serializable {
 	}
 	public void valueChangeMethod(ValueChangeEvent e){
 		 this.level1Value = e.getNewValue().toString();
-		 this.level2Value = level02.get(this.level1Value).get(0).getValue().toString(); 
+		 this.level2Value = level02.get(this.level1Value).get(0).getValue().toString();
+		 this.isLevel02 = true;
+		 this.isLevel03 = false;
 	}
 	public void valueChangeMethod02(ValueChangeEvent e){
 		 this.level2Value = e.getNewValue().toString();
+		 this.isLevel03 = true;
 	}
 	public List<SelectItem> getLevel1() {
 		return level1;

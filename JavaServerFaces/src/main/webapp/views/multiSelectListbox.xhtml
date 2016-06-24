@@ -14,11 +14,11 @@
 	    </h:selectOneMenu>
 	</h:form>
 	<h:form style="display:inline">   
-	     <h:selectOneMenu onchange="submit()"  valueChangeListener="#{empData.valueChangeMethod02}">
+	     <h:selectOneMenu rendered="#{empData.isLevel02}" onchange="submit()"  valueChangeListener="#{empData.valueChangeMethod02}">
 	    	<f:selectItems value="#{empData.level02[empData.level1Value]}" />
 	     </h:selectOneMenu>
 	 </h:form> 
-	     <h:selectOneMenu>
+	     <h:selectOneMenu rendered="#{empData.isLevel03}">
 	    	<f:selectItems value="#{empData.level03[empData.level2Value]}"/>
 	     </h:selectOneMenu>
 </h:body>

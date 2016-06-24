@@ -3,6 +3,7 @@ package com.jamari.service;
 import java.util.List;
 
 import com.jamari.model.Emp;
+import com.jamari.model.EmpPic;
 
 
 public interface EmpService {
@@ -16,4 +17,8 @@ public interface EmpService {
 	public int insertByEname(String ename);
 	
 	public List<Emp> getByDeptNo(int deptno);
+	
+	public EmpPic getByEmpNo(int empno);
+	
+	public int updateImgByEmpNo(int empno , byte[] img);
 }
