@@ -2,8 +2,8 @@ package com.jamari.dao;
 
 import java.util.List;
 
+import com.jamari.model.Dept;
 import com.jamari.model.Emp;
-import com.jamari.model.EmpPic;
 
 public interface EmpDAO_Interface {
 
@@ -17,7 +17,9 @@ public interface EmpDAO_Interface {
 	
 	List<Emp> getByDeptNo(int deptno);
 
-	EmpPic getByEmpNo(int empno);
-
 	int updateImgByEmpNo(int empno,byte[] img);
+	
+	Emp getByEmpNo(int empno);
+	
+	List<Dept> getAllDept();
 }

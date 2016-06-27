@@ -3,15 +3,17 @@ package com.jamari.service.serviceImpl;
 import java.util.List;
 
 import com.jamari.dao.daoImpl.EmpJDBCDAO;
+import com.jamari.model.Dept;
 import com.jamari.model.Emp;
-import com.jamari.model.EmpPic;
 import com.jamari.service.EmpService;
 
 public class EmpServiceImpl implements EmpService {
 	private EmpJDBCDAO dao;
+//	private EmpJDBCDAOH2 dao;
 	
 	public EmpServiceImpl(){
 		dao = new EmpJDBCDAO();
+//		dao = new EmpJDBCDAOH2();
 	}
 	
 	public List<Emp> getAll(){
@@ -36,15 +38,20 @@ public class EmpServiceImpl implements EmpService {
 	public List<Emp> getByDeptNo(int deptno) {
 		return dao.getByDeptNo(deptno);
 	}
-
-	@Override
-	public EmpPic getByEmpNo(int empno) {
-		return dao.getByEmpNo(empno);
-	}
 	
 	@Override
 	public int updateImgByEmpNo(int empno,byte[] img) {
 		return dao.updateImgByEmpNo(empno,img);
+	}
+
+	@Override
+	public Emp getByEmpNo(int empno) {
+		return dao.getByEmpNo(empno);
+	}
+
+	@Override
+	public List<Dept> getAllDept() {
+		return dao.getAllDept();
 	}
 	
 }

@@ -29,11 +29,10 @@ public class DBGifReader4 extends HttpServlet {
 		int empno = new Integer(req.getParameter("empno"));
 		try {
 			byte[] buf = empSvc.getByEmpNo(empno).getPic();
-			System.out.println(buf.length);
 			out.write(buf);
 		} catch (Exception e) {
 			e.printStackTrace();
-			InputStream in = new FileInputStream(getServletContext().getRealPath("/resources/image/nopic.jpg"));
+			InputStream in = new FileInputStream(getServletContext().getRealPath("/resource/image/nopic.jpg"));
 			byte[] buf = new byte[in.available()];
 		    in.read(buf);
 			out.write(buf);

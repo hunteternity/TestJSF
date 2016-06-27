@@ -17,6 +17,8 @@ public class Emp {
 	private int deptno;
 	
 	private int jobno;
+	
+	private byte[] pic;
 
 	private boolean editable;
 
@@ -25,7 +27,7 @@ public class Emp {
 	}
 	
 	public Emp(int empno, Double comm, String ename, Date hiredate, Double sal,
-			int deptno, int jobno) {
+			int deptno, int jobno,byte[] pic) {
 		super();
 		this.empno = empno;
 		this.comm = comm;
@@ -34,6 +36,7 @@ public class Emp {
 		this.sal = sal;
 		this.deptno = deptno;
 		this.jobno = jobno;
+		this.pic = pic;
 	}
 
 	public int getEmpno() {
@@ -98,6 +101,14 @@ public class Emp {
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	public byte[] getPic() {
+		return pic;
+	}
+
+	public void setPic(byte[] pic) {
+		this.pic = pic;
 	}
 	
 }

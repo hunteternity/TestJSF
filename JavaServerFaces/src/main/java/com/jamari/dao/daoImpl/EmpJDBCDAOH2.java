@@ -12,14 +12,16 @@ import com.jamari.dao.EmpDAO_Interface;
 import com.jamari.model.Dept;
 import com.jamari.model.Emp;
 
-public class EmpJDBCDAO implements EmpDAO_Interface {
+public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "hr";
-	String passwd = "123456";
+	String driver = "org.h2.Driver";
+	String url = "jdbc:h2:mem:testdb;INIT=runscript from \'classpath:scripts/jamari.sql\';LOCK_MODE=1;MVCC=TRUE;DB_CLOSE_DELAY=-1;MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=3;TRACE_LEVEL_FIle=4";
+//	String url = "jdbc:h2:file:~/testdb;INIT=runscript from \'classpath:scripts/jamari.sql\';LOCK_MODE=1;MVCC=TRUE;DB_CLOSE_DELAY=-1;MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=3;TRACE_LEVEL_FIle=4";
+	String userid = "sa";
+	String passwd = "";
 	
 	private static final String GET_ALL_STMT = "SELECT * from emp order by empno";
+	private static final String GET_ALL_DEPT_STMT = "SELECT * from dept order by deptno";
 	private static final String GET_BY_DEPTNO = "SELECT * from emp where deptno = ? order by empno";
 	private static final String GET_BY_EMPNO = "SELECT * from emp where empno = ?";
 	private static final String UPDATE = "UPDATE emp set ename=? where empno = ?";
@@ -320,7 +322,7 @@ public class EmpJDBCDAO implements EmpDAO_Interface {
 		}
 		return updateCount;
 	}
-	
+		
 	@Override
 	public Emp getByEmpNo(int empno) {
 		Emp emp = null;
@@ -381,7 +383,57 @@ public class EmpJDBCDAO implements EmpDAO_Interface {
 		}
 	@Override
 	public List<Dept> getAllDept() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Dept> list = new ArrayList<Dept>();
+		Dept Dept = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_DEPT_STMT);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Dept = new Dept();
+				Dept.setDeptno(rs.getInt("deptno"));
+				Dept.setDname(rs.getString("dname"));
+				Dept.setLoc(rs.getString("loc"));
+				
+				list.add(Dept);
+			}
+		}catch (ClassNotFoundException e) {
+				throw new RuntimeException("Couldn't load database driver. "
+						+ e.getMessage());
+				// Handle any SQL errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return list;
+		}
 }

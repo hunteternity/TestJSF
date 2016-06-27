@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,8 +131,11 @@ public class Page2Controller implements Serializable {
 
 	public void valueChangeMethod(ValueChangeEvent e) {
 		this.deptValue = e.getNewValue().toString();
-		this.imgno = empSvc.getByDeptNo(Integer.parseInt(this.deptValue))
-				.get(0).getEmpno();
+		int beanSize = empSvc.getByDeptNo(Integer.parseInt(this.deptValue)).size();
+		if(beanSize>0){
+			this.imgno = empSvc.getByDeptNo(Integer.parseInt(this.deptValue))
+					.get(0).getEmpno();
+		}
 		this.isLevel02 = true;
 		this.isLevel03 = false;
 
@@ -190,8 +192,7 @@ public class Page2Controller implements Serializable {
 //		return new DefaultStreamedContent(new ByteArrayInputStream());
 //	}
 	
-	public StreamedContent getImageFromDB(int imgno) throws IOException {
-		System.out.println("imgno:"+imgno);
+	public StreamedContent getImageFromDB() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {

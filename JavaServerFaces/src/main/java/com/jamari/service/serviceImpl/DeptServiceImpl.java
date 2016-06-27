@@ -8,9 +8,11 @@ import com.jamari.service.DeptService;
 
 public class DeptServiceImpl implements DeptService {
 	private DeptJDBCDAO dao;
+//	private DeptJDBCDAOH2 dao;
 	
 	public DeptServiceImpl(){
 		dao = new DeptJDBCDAO();
+//		dao = new DeptJDBCDAOH2();
 	}
 	
 	public List<Dept> getAll(){

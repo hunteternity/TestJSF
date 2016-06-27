@@ -12,6 +12,13 @@
   <url>http://maven.apache.org</url>
   
   <dependencies>
+  
+  	<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.190</version>
+		</dependency>
+  
   	
   	<!-- For Java EE Application Server, uncomment this library 
   	and comment the rest of the libraries
