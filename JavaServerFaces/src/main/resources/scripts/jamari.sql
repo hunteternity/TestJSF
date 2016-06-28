@@ -1,9 +1,13 @@
 --------------------------------------------------------
 --  DDL for Table DEPT
 --------------------------------------------------------
-
+drop table  DEPT if exists;
+drop table  EMP if exists;
+drop table  JOB if exists;
+drop sequence  emp_seq if exists;  
+CREATE SEQUENCE emp_seq INCREMENT BY 1 START WITH 1001 NOMAXVALUE NOCYCLE NOCACHE;
   CREATE TABLE "DEPT" 
-   (	"DEPTNO" NUMBER(10,0), 
+   (	"DEPTNO" int , 
 	"DNAME" VARCHAR2(255 ), 
 	"LOC" VARCHAR2(255 )
    ) ;
@@ -12,8 +16,8 @@
 --------------------------------------------------------
 
   CREATE TABLE "EMP" 
-   (	"EMPNO" NUMBER(10,0), 
-	"COMM" FLOAT(126), 
+   (	"EMPNO" int default  emp_seq.NEXTVAL primary key, 
+	"COMM" int , 
 	"ENAME" VARCHAR2(255 ), 
 	"HIREDATE" DATE, 
 	"SAL" FLOAT(126), 
@@ -27,7 +31,7 @@
 --------------------------------------------------------
 
   CREATE TABLE "JOB" 
-   (	"JOBNO" NUMBER(10,0), 
+   (	"JOBNO" int, 
 	"JOB_TITLE" VARCHAR2(255 ), 
 	"MAX_SALARY" FLOAT(126), 
 	"MIN_SALARY" FLOAT(126)

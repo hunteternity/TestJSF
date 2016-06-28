@@ -35,15 +35,24 @@ public class Page2Controller implements Serializable {
 	List<Dept> deptList = getAllDept();
 	DeptServiceImpl deptSvc;
 	EmpServiceImpl empSvc;
+	Boolean isLevel02 = false;
+	Boolean isLevel03 = false;
+	private StreamedContent imgFromDB;
 
+	
 	private List<SelectItem> depts = getDeptsItems();
 	private Map<String, List<SelectItem>> emps = getEmpsItems();
 	private String deptValue = depts.get(0).getValue().toString();
-
+	private Part file;
 	private int imgno;
 
-	Boolean isLevel02 = false;
-	Boolean isLevel03 = false;
+	public List<Emp> getEmpList() {
+		return empList;
+	}
+
+	public void setEmpList(List<Emp> empList) {
+		this.empList = empList;
+	}
 
 	public Boolean getIsLevel02() {
 		return isLevel02;
@@ -131,8 +140,9 @@ public class Page2Controller implements Serializable {
 
 	public void valueChangeMethod(ValueChangeEvent e) {
 		this.deptValue = e.getNewValue().toString();
-		int beanSize = empSvc.getByDeptNo(Integer.parseInt(this.deptValue)).size();
-		if(beanSize>0){
+		int beanSize = empSvc.getByDeptNo(Integer.parseInt(this.deptValue))
+				.size();
+		if (beanSize > 0) {
 			this.imgno = empSvc.getByDeptNo(Integer.parseInt(this.deptValue))
 					.get(0).getEmpno();
 		}
@@ -149,6 +159,7 @@ public class Page2Controller implements Serializable {
 			}
 		}
 		this.isLevel03 = true;
+		setImgFromDB(getImageFromDB());
 	}
 
 	public List<SelectItem> getDept() {
@@ -166,8 +177,6 @@ public class Page2Controller implements Serializable {
 	public void setDeptValue(String deptValue) {
 		this.deptValue = deptValue;
 	}
-
-	private Part file;
 
 	public void upload(int empno) {
 		try {
@@ -188,33 +197,52 @@ public class Page2Controller implements Serializable {
 		this.file = file;
 	}
 
-//	public StreamedContent getImgFromDB(){
-//		return new DefaultStreamedContent(new ByteArrayInputStream());
-//	}
-	
+	/***
+	 *	level02 value changed 
+	 *	get imgno return pic_value
+	 * **/
 	public StreamedContent getImageFromDB() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
 			return new DefaultStreamedContent();
 		} else {
-
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-			// Reading image from database assuming that product image (bytes)
-			// of product id I1 which is already stored in the database.
 
 			byte[] image = null;
 			try {
-//				image = new EmpServiceImpl().getByEmpNo(imgno).getPic();
-			} catch (Exception e) { // TODO Auto-generated catch block
-										// e.printStackTrace();
+				image = new EmpServiceImpl().getByEmpNo(this.imgno).getPic();
+			} catch (Exception e) { 
+				e.printStackTrace();
 			}
-
 			return new DefaultStreamedContent(new ByteArrayInputStream(image),
 					"image/png");
 
 		}
 	}
-	
+
+	public StreamedContent getImgFromDB() {
+		return imgFromDB;
+	}
+
+	public void setImgFromDB(StreamedContent imgFromDB) {
+		this.imgFromDB = imgFromDB;
+	}
+
+	/***
+	 *	param : empno 
+	 *	from frontend image request
+	 * **/
+	public StreamedContent getPic() throws IOException {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+			return new DefaultStreamedContent();
+		} else {
+			int empno = Integer.parseInt(context.getExternalContext()
+					.getRequestParameterMap().get("empno"));
+			return new DefaultStreamedContent(new ByteArrayInputStream(
+					empSvc.getByEmpNo(empno).getPic()));
+		}
+	}
 }

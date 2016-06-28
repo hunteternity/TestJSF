@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
+
 import com.jamari.dao.EmpDAO_Interface;
 import com.jamari.model.Dept;
 import com.jamari.model.Emp;
@@ -15,8 +19,8 @@ import com.jamari.model.Emp;
 public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 
 	String driver = "org.h2.Driver";
-	String url = "jdbc:h2:mem:testdb;INIT=runscript from \'classpath:scripts/jamari.sql\';LOCK_MODE=1;MVCC=TRUE;DB_CLOSE_DELAY=-1;MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=3;TRACE_LEVEL_FIle=4";
-//	String url = "jdbc:h2:file:~/testdb;INIT=runscript from \'classpath:scripts/jamari.sql\';LOCK_MODE=1;MVCC=TRUE;DB_CLOSE_DELAY=-1;MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=3;TRACE_LEVEL_FIle=4";
+	private  String url = "jdbc:h2:mem:testdb;INIT=runscript from \'classpath:scripts/jamari.sql\';LOCK_MODE=1;MVCC=TRUE;DB_CLOSE_DELAY=-1;MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=3;TRACE_LEVEL_FIle=4";
+//	String url = "jdbc:h2:file:/data/sample";
 	String userid = "sa";
 	String passwd = "";
 	
@@ -29,8 +33,23 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 	private static final String DELETE = "DELETE from emp where empno = ?";
 	private static final String INSERT_STMT = "INSERT INTO emp VALUES (emp_seq.NEXTVAL, null,?,null,null,2,2,null,null)";
 	
+	private DataSource ds ;
+	
+	public void initDataSource() {
+		BasicDataSource mysqlDS = null;
+		if(ds ==null ){
+			mysqlDS = new BasicDataSource();
+			mysqlDS.setDriverClassName(driver);
+			mysqlDS.setUrl(url);
+			mysqlDS.setUsername(userid); 
+			mysqlDS.setPassword(passwd);
+			ds = mysqlDS;
+		} 
+	}
+
 	@Override
 	public List<Emp> getAll() {
+		initDataSource();
 		List<Emp> list = new ArrayList<Emp>();
 		Emp emp = null;
 		
@@ -39,8 +58,10 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			 
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con  =ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -56,11 +77,12 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 				
 				list.add(emp);
 			}
-		}catch (ClassNotFoundException e) {
-				throw new RuntimeException("Couldn't load database driver. "
-						+ e.getMessage());
-				// Handle any SQL errors
-			} catch (SQLException se) {
+//		}catch (ClassNotFoundException e) {
+//				throw new RuntimeException("Couldn't load database driver. "
+//						+ e.getMessage());
+//				// Handle any SQL errors
+			} 
+		catch (SQLException se) {
 				throw new RuntimeException("A database error occured. "
 						+ se.getMessage());
 				// Clean up JDBC resources
@@ -91,6 +113,7 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 		}
 	@Override
 	public int updateByEmpNo(int empno,String ename) {
+		initDataSource();
 		int updateCount = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -135,6 +158,7 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 	}
 	@Override
 	public int deleteByEmpNo(int empNo) {
+		initDataSource();
 		int updateCount = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -178,25 +202,27 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 	}
 	@Override
 	public int insertByEname(String ename) {
+		initDataSource();
 		int updateCount = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con  =ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 			pstmt.setString(1, ename);
 			
 			updateCount = pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Couldn't load database driver. "
+//					+ e.getMessage());
+//			// Handle any SQL errors
+		} 
+		catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 			// Clean up JDBC resources
@@ -220,6 +246,7 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 	}
 	@Override
 	public List<Emp> getByDeptNo(int deptno) {
+		initDataSource();
 		List<Emp> list = new ArrayList<Emp>();
 		Emp emp = null;
 		
@@ -280,6 +307,7 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 		}
 	@Override
 	public int updateImgByEmpNo(int empno,byte[] img) {
+		initDataSource();
 		int updateCount = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -325,6 +353,7 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 		
 	@Override
 	public Emp getByEmpNo(int empno) {
+		initDataSource();
 		Emp emp = null;
 		
 		Connection con = null;
@@ -383,6 +412,7 @@ public class EmpJDBCDAOH2 implements EmpDAO_Interface {
 		}
 	@Override
 	public List<Dept> getAllDept() {
+		initDataSource();
 		List<Dept> list = new ArrayList<Dept>();
 		Dept Dept = null;
 		
