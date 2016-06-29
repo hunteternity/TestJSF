@@ -100,7 +100,6 @@ public class PageController implements Serializable {
 	}
 	
 	public String insertAction(){
-		System.out.println(newEmp);
 		empSvc.insertByEname(newEmp); 
 		empList = getAll();
 		newEmp = "";

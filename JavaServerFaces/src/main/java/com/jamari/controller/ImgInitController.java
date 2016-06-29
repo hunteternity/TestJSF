@@ -22,18 +22,18 @@ public class ImgInitController implements Serializable {
 
 	public void imgInit() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			ServletContext servletContext = (ServletContext) context
+			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
+			EmpServiceImpl empSvc = new EmpServiceImpl();
 			for (int i = 1; i < 6; i++) {
 				String path = servletContext
 						.getRealPath("/resource/imgInit/"+i+".jpg");
 				// String path = FacesContext.getCurrentInstance().getExternalContext().getContextName();
 				InputStream in = new FileInputStream((new File(path)));
 				byte[] img = new byte[in.available()];
-				System.out.println(img.length);
 				in.read(img);
-				new EmpServiceImpl().updateImgByEmpNo(i, img);
+				empSvc.updateImgByEmpNo(i, img);
+				in.close();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

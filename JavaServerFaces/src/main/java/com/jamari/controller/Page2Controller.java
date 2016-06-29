@@ -235,14 +235,15 @@ public class Page2Controller implements Serializable {
 	 * **/
 	public StreamedContent getPic() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance();
-
+		empSvc = new EmpServiceImpl();
 		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
 			return new DefaultStreamedContent();
 		} else {
 			int empno = Integer.parseInt(context.getExternalContext()
 					.getRequestParameterMap().get("empno"));
+			byte[] pic = empSvc.getByEmpNo(empno).getPic();
 			return new DefaultStreamedContent(new ByteArrayInputStream(
-					empSvc.getByEmpNo(empno).getPic()));
+					pic));
 		}
 	}
 }

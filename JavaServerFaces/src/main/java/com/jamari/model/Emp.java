@@ -1,8 +1,14 @@
 package com.jamari.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Emp {
+public class Emp implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private int empno;
 	
