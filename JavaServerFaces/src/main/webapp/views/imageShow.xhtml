@@ -25,14 +25,31 @@
 			<f:selectItems value="#{page2Con.emps[page2Con.deptValue]}" />
 		</h:selectOneListbox>
 	</h:form>
+	
+	<h:form style="display:inline">
+		<p:selectOneListbox onclick="submit()"
+			valueChangeListener="#{page2Con.valueChangeMethod}">
+			<f:selectItems value="#{page2Con.depts}" />
+		</p:selectOneListbox>
+	</h:form>
+	<h:form style="display:inline">
+		<p:selectOneListbox rendered="#{page2Con.isLevel02}"
+			onclick="submit()"
+			valueChangeListener="#{page2Con.valueChangeMethod02}">
+			<f:selectItems value="#{page2Con.emps[page2Con.deptValue]}" />
+		</p:selectOneListbox>
+	</h:form>
 
 	<br />
-	
-	<h:outputText style="color:red" value="Servlet" rendered="#{page2Con.isLevel03}"/>
+
+	<h:outputText style="color:red" value="Servlet"
+		rendered="#{page2Con.isLevel03}" />
 	<h:graphicImage rendered="#{page2Con.isLevel03}"
 		value="/ImageServlet/?empno=#{page2Con.imgno}" width="200" />
-	<h:outputText style="color:red" value="StreamContent" rendered="#{page2Con.isLevel03}" />
-	<p:graphicImage rendered="#{page2Con.isLevel03}" cache="false" value="#{page2Con.imgFromDB}" width="100"></p:graphicImage>
+	<h:outputText style="color:red" value="StreamContent"
+		rendered="#{page2Con.isLevel03}" />
+	<p:graphicImage rendered="#{page2Con.isLevel03}" cache="false"
+		value="#{page2Con.imgFromDB}" width="100"></p:graphicImage>
 
 	<h:form id="form" enctype="multipart/form-data">
 		<h:inputFile id="file" value="#{page2Con.file}" />
@@ -60,13 +77,14 @@
 			<p:tab title="#{emp.ename}">
 				<h:panelGrid columns="2" cellpadding="10">
 					<p:graphicImage cache="false" value="#{page2Con.pic}" width="100">
-					<f:param name="empno" value="#{emp.empno}" />
-				</p:graphicImage>
-				<h:outputText value="#{emp.ename}" />
+						<f:param name="empno" value="#{emp.empno}" />
+					</p:graphicImage>
+					<h:outputText value="#{emp.ename}" />
 				</h:panelGrid>
 			</p:tab>
 		</c:forEach>
 	</p:tabView>
-
+	<br/>
+	
 </h:body>
 </html>

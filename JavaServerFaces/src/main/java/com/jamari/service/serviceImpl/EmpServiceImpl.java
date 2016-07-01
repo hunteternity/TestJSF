@@ -2,18 +2,18 @@ package com.jamari.service.serviceImpl;
 
 import java.util.List;
 
-import com.jamari.dao.daoImpl.EmpJDBCDAOH2;
+import com.jamari.dao.daoImpl.EmpJDBCDAO;
 import com.jamari.model.Dept;
 import com.jamari.model.Emp;
 import com.jamari.service.EmpService;
 
 public class EmpServiceImpl implements EmpService {
-//	private EmpJDBCDAO dao;
-	private EmpJDBCDAOH2 dao;
+	private EmpJDBCDAO dao;
+//	private EmpJDBCDAOH2 dao;
 	
 	public EmpServiceImpl(){
-//		dao = new EmpJDBCDAO();
-		dao = new EmpJDBCDAOH2();
+		dao = new EmpJDBCDAO();
+//		dao = new EmpJDBCDAOH2();
 	}
 	
 	public List<Emp> getAll(){

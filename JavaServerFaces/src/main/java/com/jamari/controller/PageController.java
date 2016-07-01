@@ -104,6 +104,7 @@ public class PageController implements Serializable {
 		empList = getAll();
 		newEmp = "";
 		return null;
+//		return "/views/page2.xhtml";
 		
 	}
 	
