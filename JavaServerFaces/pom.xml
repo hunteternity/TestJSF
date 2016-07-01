@@ -18,7 +18,12 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.190</version>
 		</dependency>
-  
+  	
+  	<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
   	
   	<!-- For Java EE Application Server, uncomment this library 
   	and comment the rest of the libraries

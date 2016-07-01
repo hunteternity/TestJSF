@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
-
-import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 
 import com.jamari.dao.DeptDAO_Interface;
 import com.jamari.model.Dept;
@@ -26,24 +27,30 @@ public class DeptJDBCDAOH2 implements DeptDAO_Interface {
 
 	private static final String GET_ALL_STMT = "SELECT * from dept order by deptno";
 
-	private DataSource ds;
+	private static DataSource ds;
 
-	public void initDataSource() {
-		BasicDataSource mysqlDS = null;
-		if (ds == null) {
-			mysqlDS = new BasicDataSource();
-			mysqlDS.setDriverClassName(driver);
-			mysqlDS.setUrl(url);
-			mysqlDS.setUsername(userid);
-			mysqlDS.setPassword(passwd);
-			ds = mysqlDS;
+	static{
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/testdb");
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
+		
+//		ConnectionPoolDataSource mysqlDS = null;
+//		if(ds == null ){
+//			mysqlDS = new BasicDataSource();
+//			mysqlDS = new  	();
+//			mysqlDS.setDriverClassName(driver);
+//			mysqlDS.setUrl(url);
+//			mysqlDS.setUsername(userid); 
+//			mysqlDS.setPassword(passwd);
+//			ds = mysqlDS;
+//		} 
 	}
 
 	@Override
 	public List<Dept> getAll() {
-		initDataSource();
-		
 		List<Dept> list = new ArrayList<Dept>();
 		Dept Dept = null;
 
