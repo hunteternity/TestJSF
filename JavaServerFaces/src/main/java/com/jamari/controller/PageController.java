@@ -81,6 +81,7 @@ public class PageController implements Serializable {
 	public String processPage2() {
 		return "success";
 	}
+	
 
 	public List<Emp> getEmpList() {
 		return empList;
@@ -151,18 +152,18 @@ public class PageController implements Serializable {
 		SelectItemGroup group2 = new SelectItemGroup("Group 2");
 		SelectItemGroup group3 = new SelectItemGroup("Group 3");
 		
-		SelectItemGroup group11 = new SelectItemGroup("Group 1.1");
-		SelectItemGroup group12 = new SelectItemGroup("Group 1.2");
-		SelectItem option11 = new SelectItem("Option 1.1", "Option 1.1");
-		SelectItem option12 = new SelectItem("Option 1.2", "Option 1.2");
+		/*SelectItemGroup group11 = new SelectItemGroup("Group 1.1");
+		SelectItemGroup group12 = new SelectItemGroup("Group 1.2");*/
+		SelectItem option11 = new SelectItem("Option A.1", "Option A.1");
+		SelectItem option12 = new SelectItem("Option A.2", "Option A.2");
 		
-		SelectItemGroup group21 = new SelectItemGroup("Group 2.1");
-		SelectItem option21 = new SelectItem("Option 2.1", "Option 2.1");
+		/*SelectItemGroup group21 = new SelectItemGroup("Group 2.1");*/
+		SelectItem option21 = new SelectItem("Option B.1", "Option B.1");
 		
-		SelectItem option31 = new SelectItem("Option 3.1", "Option 3.1");
-		SelectItem option32 = new SelectItem("Option 3.2", "Option 3.2");
-		SelectItem option33 = new SelectItem("Option 3.3", "Option 3.3");
-		SelectItem option34 = new SelectItem("Option 3.4", "Option 3.4");
+		SelectItem option31 = new SelectItem("Option C.1", "Option C.1");
+		SelectItem option32 = new SelectItem("Option C.2", "Option C.2");
+		SelectItem option33 = new SelectItem("Option C.3", "Option C.3");
+		SelectItem option34 = new SelectItem("Option C.4", "Option C.4");
 		
 		/*SelectItem option111 = new SelectItem("Option 1.1.1");
 		SelectItem option112 = new SelectItem("Option 1.1.2");
@@ -174,9 +175,9 @@ public class PageController implements Serializable {
 		group12.setSelectItems(new SelectItem[] { option121, option122,
 				option123 });*/
 		
-		group1.setSelectItems(new SelectItem[] { group11,group12 });
+		/*group1.setSelectItems(new SelectItem[] { group11,group12 });
 		group2.setSelectItems(new SelectItem[] { group21 });
-		group3.setSelectItems(new SelectItem[] { option31, option32, option33,option34 });
+		group3.setSelectItems(new SelectItem[] { option31, option32, option33,option34 });*/
 		
 		result1.add(option11);
 		result1.add(option12);

@@ -18,6 +18,7 @@
 			<from-outcome>success</from-outcome>
 			<to-view-id>/views/page2.xhtml</to-view-id>
 		</navigation-case>
+	
 	</navigation-rule>
 	
 </faces-config>

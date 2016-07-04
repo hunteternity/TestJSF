@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<link type="text/css" rel="stylesheet"
+		href="http://yui.yahooapis.com/3.3.0/build/cssgrids/grids-min.css" />
+
+</h:head>
+
+<h:body>
+
+
+	<p:fieldset legend="當事人清單">
+
+		<label for="id_num"
+			style="display: inline-block; line-height: 30px; vertical-align: middle;">國民身分證統一編號：</label>
+		<h:inputText value="#{peopleData.id_num}" id="id_num" />
+		<br />
+		<label for="date"
+			style="display: inline-block; line-height: 30px; vertical-align: middle;">除戶日期：</label>
+		<h:inputText value="#{peopleData.date}" id="date" />
+
+
+	</p:fieldset>
+
+	<h:form>
+		<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+			<!-- <p:outputLabel for="console" value="Console:" /> -->
+			<p:selectOneRadio id="console" value="#{radioView.radioBtn}">
+				<f:selectItem itemLabel="身份登記 " itemValue="identity" />
+				<f:selectItem itemLabel="遷徙登記" itemValue="migrate" />
+				<f:selectItem itemLabel="更正變更登記" itemValue="modify" />
+			</p:selectOneRadio>
+
+
+		</h:panelGrid>
+	</h:form>
+
+
+	<p:fieldset legend="出生登記">
+
+		<p:tabView>
+			<p:tab title="全戶基本資料">
+				<h:panelGrid columns="2" cellpadding="10">
+					<!-- <p:graphicImage name="demo/images/godfather/godfather1.jpg" /> -->
+
+					自立新戶:
+					<p:selectOneRadio id="console" value="#{radioView.radioBtn}">
+						<f:selectItem itemLabel="是" itemValue="yes" />
+						<f:selectItem itemLabel="否" itemValue="no" />
+
+					</p:selectOneRadio>
+				</h:panelGrid>
+
+				<h:panelGrid columns="7" cellpadding="10">
+						戶長統號:
+						<h:inputText value="#{peopleData.householdNumber_1}" />
+						
+						戶號：
+						<h:inputText value="#{peopleData.householdNumber_2}" />
+						<h:commandButton value="查詢"/><h:commandButton value="重設資料"/>
+				</h:panelGrid>
+				<h:panelGrid columns="10" cellpadding="10">
+				
+						戶長姓名:
+						<h:inputText value="#{peopleData.householdName}" size="15" />
+						<h:commandButton value="查詢"/>
+						出生日期：
+						民國
+						<h:inputText value="#{peopleData.birthday}" size="5" />
+						年
+						<h:inputText value="#{peopleData.birthday}" size="5" />
+						月
+						<h:inputText value="#{peopleData.birthday}" size="5" />
+						日
+				</h:panelGrid>
+
+				<h:panelGrid columns="11" cellpadding="10">
+					戶籍地址:
+					<h:inputText value="#{peopleData.birthday}" size="5" />(省市縣市) 
+					<h:inputText value="#{peopleData.birthday}" size="5" />(鄉鎮市區) 
+					<h:inputText value="#{peopleData.birthday}" size="5" />(村里) 
+					<h:inputText value="#{peopleData.birthday}" size="5" />鄰 
+					<h:inputText value="#{peopleData.birthday}" size="15" />(街路門牌) 
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="出生者資料">
+				<h:panelGrid columns="2" cellpadding="10">
+					<!--  <p:graphicImage name="demo/images/godfather/godfather2.jpg" /> -->
+					<h:outputText value="Francis Ford Coppola's legendary..." />
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="父母申請資料">
+				<h:panelGrid columns="2" cellpadding="10">
+					<!-- <p:graphicImage name="demo/images/godfather/godfather3.jpg" /> -->
+					<h:outputText value="After a break of more than 15 years..." />
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="申請人/受委託人">
+				<h:panelGrid columns="2" cellpadding="10">
+					<!-- <p:graphicImage name="demo/images/godfather/godfather3.jpg" /> -->
+					<h:outputText value="After a break of more than 15 years..." />
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="戶籍記事/罰鍰清單">
+				<h:panelGrid columns="2" cellpadding="10">
+					<!-- <p:graphicImage name="demo/images/godfather/godfather3.jpg" /> -->
+					<h:outputText value="After a break of more than 15 years..." />
+				</h:panelGrid>
+			</p:tab>
+		</p:tabView>
+
+	</p:fieldset>
+
+
+
+</h:body>
+
+
+</html>
