@@ -4,10 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet name="css/style.css"/>
+</h:head>
 
-<h:body>
-	<h2>This is start.xhtml</h2>
+<h:body onload="#{empData.empListReflash()}"> 
+	<h2 class="stk2">This is start.xhtml</h2>
 
 	<h:form>
 		<h:commandButton action="#{imgInitCon.imgInit()}" value="Init" />
@@ -15,9 +19,27 @@
 
 	<br />
 	<h:form>
-		<h:commandButton action="/views/selectItem.xhtml" value="selectItem" />
-		<h:commandButton action="/views/imageShow.xhtml" value="imageShow" />
-		<h:commandButton action="/views/tagGOGOGO.xhtml" value="tagGOGOGO" />
+		<p:commandButton style="width:200px" styleClass="ui-priority-primary"
+			action="/views/selectItem.xhtml" value="selectItem" />
+		<br />
+		<p:commandButton style="width:200px" styleClass="ui-priority-primary"
+			action="/views/imageShow.xhtml" value="imageShow" width="100px" />
+		<br />
+		<p:commandButton style="width:200px" styleClass="ui-priority-primary"
+			action="/views/tagGOGOGO.xhtml" value="tagGOGOGO" />
+		<br />
+		<p:commandButton style="width:200px" styleClass="ui-priority-primary"
+			action="/views/basic.xhtml" value="basic" />
+		<br />
+		<p:commandButton style="width:200px" styleClass="ui-priority-primary"
+			action="/views/signature.xhtml" value="signature" />
+		<br />
+		<p:commandButton style="width:200px" styleClass="ui-priority-primary"
+			action="/views/download.xhtml" value="download" />
+		<br />
+		<p:commandButton style="width:200px" styleClass="ui-priority-primary"
+			action="/views/area.xhtml" value="area" />
+		<br />
 	</h:form>
 
 	<h:form>
@@ -31,7 +53,7 @@
 			<h:column>
 				<f:facet name="header">Ename</f:facet>
 				<h:inputText value="#{c.ename}" size="5" rendered="#{c.editable}" />
-
+				
 				<h:outputText value="#{c.ename}" rendered="#{not c.editable}" />
 			</h:column>
 			<h:column>
@@ -43,16 +65,30 @@
 				<f:facet name="header">刪除</f:facet>
 				<h:commandLink value="delete" action="#{empData.delete(c)}" />
 			</h:column>
+			<h:column>
+				<f:facet name="header">單一跳頁</f:facet>
+				<h:commandLink value="單一跳頁" action="views/oneEmp.xhtml" actionListener="#{oneEmpCon.updateOneEmp(c.empno)}" />
+			</h:column>
 		</h:dataTable>
-
-		<h:commandButton value="Save Changes" action="#{empData.saveAction()}" />
+		<h:commandButton value="Save Changes" action="#{empData.saveAction}" />
 	</h:form>
 
 	<br />
 	<h:form>
 		<h:inputText value="#{empData.newEmp}" size="5" />
-		<h:commandButton value="新增" action="#{empData.insertAction()}" />
+		<h:commandButton value="新增" action="#{empData.insertAction}" />
 	</h:form>
+
+	<p:stack id="stk" icon="/resources/imgInit/1.jpg" expanded="true">
+		<p:menuitem value="Home" icon="/resources/imgInit/1.jpg"
+			url="/views/selectItem.xhtml" />
+		<p:menuitem value="Music" icon="/resources/imgInit/2.jpg"
+			url="http://www.google.com.tw" />
+		<p:menuitem value="Video" icon="/resources/imgInit/3.jpg" url="#" />
+		<p:menuitem value="Email" icon="/resources/imgInit/4.jpg" url="#" />
+		<p:menuitem value="Portfolio" icon="/resources/imgInit/5.jpg" url="#" />
+	</p:stack>
+	<p:draggable for="stk" />
 
 </h:body>
 </html>

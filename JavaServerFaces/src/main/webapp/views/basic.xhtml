@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<h:body>
+
+<h:form>
+		<p:commandButton style="width:200px" styleClass="ui-priority-primary" action="/start.xhtml" value="首頁" /><br/>
+</h:form>
+	<h:form>
+		<h:commandLink id="excel">
+			<p:graphicImage value="/resource/image/01.jpg"
+				style="height: 77px; width: 100px" />
+			<p:dataExporter pageOnly="true" type="xls" target="tbl" fileName="cars" postProcessor="#{dtBasicView.postProcessorXSL}"/>
+		</h:commandLink>
+	</h:form>
+	<br />
+	<h:form>
+		<h:commandButton action="#{dtBasicView.outputXLS}" value="Get XLS"/>
+	</h:form>
+	<br />
+
+	<p:dataTable var="car" value="#{dtBasicView.cars}" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                         id="tbl">
+                         
+		<p:column headerText="ID">
+			<h:outputText value="#{car.id}" />
+		</p:column>
+
+		<p:column headerText="Year">
+			<h:outputText value="#{car.year}" />
+		</p:column>
+
+		<p:column headerText="Brand">
+			<h:outputText value="#{car.brand}" />
+		</p:column>
+
+		<p:column headerText="Color">
+			<h:outputText value="#{car.color}" />
+		</p:column>
+	</p:dataTable>
+</h:body>
+</html>

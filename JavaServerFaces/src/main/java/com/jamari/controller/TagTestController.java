@@ -19,7 +19,7 @@ import com.jamari.service.serviceImpl.EmpServiceImpl;
 
 @ManagedBean(name = "tagTestCon")
 @SessionScoped
-public class tagTestController implements Serializable {
+public class TagTestController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
