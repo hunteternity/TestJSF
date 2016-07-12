@@ -67,17 +67,17 @@
 		</h:panelGrid>
 	</h:form>
 
-	<p:contentFlow var="emp" value="#{tagTestCon.empList}">
+	<p:contentFlow var="e" value="#{tagTestCon.empList}">
 		<p:graphicImage cache="false" value="#{tagTestCon.pic}"
 			styleClass="content">
-			<f:param name="empno" value="#{emp.empno}" />
+			<f:param name="empno" value="#{e.empno}" />
 		</p:graphicImage>
-		<h:outputText value="#{emp.ename}" />
+		<h:outputText value="#{e.ename}" />
 	</p:contentFlow>
 
 	<p:lightBox dynamic="true">
 		<h:outputLink value="#">
-			<h:graphicImage value="/resource/image/01.jpg"
+			<h:graphicImage value="/resources/image/01.jpg"
 				style="height: 77px; width: 100px" />
 		</h:outputLink>
 		<f:facet name="inline">
@@ -86,8 +86,8 @@
 		</f:facet>
 	</p:lightBox>
 	<p:lightBox dynamic="true">
-		<h:outputLink value="#{request.contextPath}/resource/image/01.jpg">
-			<h:graphicImage value="/resource/image/01.jpg"
+		<h:outputLink value="#{request.contextPath}/resources/image/01.jpg">
+			<h:graphicImage value="/resources/image/01.jpg"
 				style="height: 77px; width: 100px" />
 		</h:outputLink>
 	</p:lightBox>

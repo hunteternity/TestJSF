@@ -15,17 +15,17 @@
 		<p:commandButton style="width:200px" styleClass="ui-priority-primary" action="/start.xhtml" value="首頁" /><br/>
 </h:form>
 	<h:form style="display:inline">
-	    <h:selectOneMenu onchange="submit()"  valueChangeListener="#{empData.valueChangeMethod}" >
-	    	<f:selectItems value="#{empData.level1}"  />
-	    </h:selectOneMenu>
+	    <p:selectOneMenu onchange="submit()"  valueChangeListener="#{selectItemCon.valueChangeMethod}" >
+	    	<f:selectItems value="#{selectItemCon.level1}"  />
+	    </p:selectOneMenu>
 	</h:form>
 	<h:form style="display:inline">   
-	     <h:selectOneMenu rendered="#{empData.isLevel02}" onchange="submit()"  valueChangeListener="#{empData.valueChangeMethod02}">
-	    	<f:selectItems value="#{empData.level02[empData.level1Value]}" />
-	     </h:selectOneMenu>
+	     <p:selectOneMenu rendered="#{selectItemCon.isLevel02}" onchange="submit()" valueChangeListener="#{selectItemCon.valueChangeMethod02}">
+		    	<f:selectItems value="#{selectItemCon.level02[selectItemCon.level1Value]}" />
+	     </p:selectOneMenu>
 	 </h:form> 
-	     <h:selectOneMenu>
-	    	<f:selectItems value="#{empData.level03[empData.level2Value]}"/>
-	     </h:selectOneMenu>
+	     <p:selectOneMenu rendered="#{selectItemCon.isLevel03}" id="item03">
+	    	<f:selectItems value="#{selectItemCon.level03[selectItemCon.level2Value]}"/>
+	     </p:selectOneMenu>
 </h:body>
 </html>

@@ -15,23 +15,14 @@
 <h:form>
 		<p:commandButton style="width:200px" styleClass="ui-priority-primary" action="/start.xhtml" value="首頁" /><br/>
 </h:form>
-	<p:dialog modal="true" widgetVar="statusDialog" header="Status"
-		draggable="false" closable="true" resizable="false">
-		<p:graphicImage value="/resources/image/01.jpg" />
-	</p:dialog>
-
 	<h:form>
-		<p:commandButton value="Download" ajax="false"
-			onclick="PrimeFaces.monitorDownload(start);"
-			icon="ui-icon-arrowthick-1-s">
-			<p:fileDownload value="#{fileDownloadView.file}" />
-		</p:commandButton>
-	</h:form>
-
-	<script type="text/javascript">
-		function start() {
-			PF('statusDialog').show();
-		}
-	</script>
+    <p:multiSelectListbox value="#{multiSelectView.selection}" effect="slide" header="Categories" showHeaders="true">
+        <f:selectItems value="#{multiSelectView.categories}" />
+    </p:multiSelectListbox>
+ 
+    <p:commandButton value="Save" icon="ui-icon-check" update="out" style="display:block;margin:10px 0" />
+ 
+    <h:outputText id="out" value="Value: #{multiSelectView.selection}" style="display:block" />
+</h:form>
 </h:body>
 </html>

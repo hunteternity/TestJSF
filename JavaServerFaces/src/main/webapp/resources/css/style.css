@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+
+.ui-stack>img {
+	width: 48px;
+	height: 48px;
+}
+.stk2{
+	color:red;
+	}
